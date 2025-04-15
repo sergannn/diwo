@@ -1,0 +1,40 @@
+name: flutter_application_1
+description: "A new Flutter project."
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  email_validator: ^3.0.0 
+  yandex_maps_mapkit: ^4.11.0-beta
+  #mappable_maps_mapkit: ^4.10.1-beta
+  animated_widgets: ^1.0.0
+  flutter_gradient_text: ^1.0.1
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  loader_overlay: ^5.0.0
+  mask_text_input_formatter: ^2.9.0
+  teledart: ^0.6.1
+  mapbox_maps_flutter: ^2.7.0
+  permission_handler: ^12.0.0+1
+  geolocator: ^13.0.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Regular.ttf
+          weight: 400
+  assets:
+    - assets/images/
+    - assets/fonts/

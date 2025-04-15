@@ -1,0 +1,22 @@
+[
+  {
+    "featureType": "all",
+    "elementType": "geometry",
+    "stylers": [{"color": "#242424"}]
+  },
+  {
+    "featureType": "building",
+    "elementType": "geometry",
+    "stylers": [{"color": "#404040"}]
+  },
+  {
+    "featureType": "landscape.natural",
+    "elementType": "geometry",
+    "stylers": [{"color": "#004400"}]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [{"color": "#ffffff"}]
+  }
+]
