@@ -53,7 +53,7 @@ class LocationExampleState extends State<MapBoxLocationExample> {
   Future<void> _initializeLocation() async {
     bool serviceEnabled;
     gl.LocationPermission permission;
-    final status = await Permission.locationWhenInUse.request();
+    final status = await Permission.location.request();
     if (status.isGranted) {
       serviceEnabled = await gl.Geolocator.isLocationServiceEnabled();
       mapboxMap?.location.updateSettings(mp.LocationComponentSettings(

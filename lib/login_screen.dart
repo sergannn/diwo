@@ -328,7 +328,7 @@ class _LoginScreenState extends State<LoginScreen> {
               password2 = '';
             });
           } else {
-            Navigator.pushNamed(context, '/MapBoxLocationExample');
+            Navigator.pushNamed(context, '/profile');
           }
         }
         if (mode == 'register') {
@@ -359,7 +359,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context.loaderOverlay.hide();
           //  }
           //        AuthRepository().
-          Navigator.pushNamed(context, '/MapBoxLocationExample');
+          Navigator.pushNamed(context, '/profile');
         } else {
           setState(() {
             secondTime = false;

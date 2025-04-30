@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:yandex_maps_mapkit/mapkit.dart';
-import 'package:yandex_maps_mapkit/yandex_map.dart';
+//import 'package:yandex_maps_mapkit/mapkit.dart';
+//import 'package:yandex_maps_mapkit/yandex_map.dart';
 //import 'package:yandex_maps_mapkit/yandex_maps_mapkit.dart';
 
 class MapScreen extends StatefulWidget {
@@ -22,7 +22,6 @@ class _MapScreenState extends State<MapScreen> {
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-      
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             width: _isMenuOpen ? MediaQuery.of(context).size.width * 0.8 : 0,
@@ -159,13 +158,13 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<void> _customizeMapStyle() async {
     final mapKit = MapKitFactory.getInstance();
-    
+
     final mapStyleBuilder = MapStyleBuilder()
       ..isNightModeEnabled = true
       ..setBuildingColor(const Color.fromRGBO(64, 64, 64, 1.0))
       ..setWaterColor(const Color.fromRGBO(0, 68, 68, 1.0))
       ..setRoadStrokeColor(Colors.white);
-    
+
     await mapKit.mapStyleManager.setMapStyle(mapStyleBuilder.build());
   }
 /*
@@ -236,13 +235,13 @@ class UserLocation {
 
 class MapStyleBuilder {
   set isNightModeEnabled(bool isNightModeEnabled) {}
-  
+
   setBuildingColor(Color color) {}
-  
+
   setWaterColor(Color color) {}
-  
+
   setRoadStrokeColor(Color white) {}
-  
+
   build() {}
 }
 
@@ -261,16 +260,15 @@ class CollectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-  // Add a ListView to the drawer. This ensures the user can scroll
-  // through the options in the drawer if there isn't enough vertical
-  // space to fit everything.
-  child: ListView(
-    // Important: Remove any padding from the ListView.
-    padding: EdgeInsets.zero,
-    children: [
-    ],
-  ),
-),
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [],
+        ),
+      ),
       appBar: AppBar(
         title: const Text('Коллекция'),
       ),

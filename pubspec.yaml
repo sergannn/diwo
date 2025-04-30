@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   email_validator: ^3.0.0 
-  yandex_maps_mapkit: ^4.11.0-beta
+  #yandex_maps_mapkit: ^4.11.0-beta
   #mappable_maps_mapkit: ^4.10.1-beta
   animated_widgets: ^1.0.0
   flutter_gradient_text: ^1.0.1

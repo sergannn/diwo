@@ -15,7 +15,20 @@ class _MapScreenState extends State<MapScreenS> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        bottomNavigationBar: Image.asset('assets/images/bottom_bar.png'),
+        /*BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.business), label: 'Business'),
+            BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
+          ],
+          currentIndex: 0,
+          selectedItemColor: Colors.amber[800],
+          onTap: (a) {},
+        ),*/
         appBar: AppBar(
+          backgroundColor: Colors.black,
           title: const Text('AppBar with hamburger button'),
           leading: Builder(
             builder: (context) {
@@ -29,11 +42,11 @@ class _MapScreenState extends State<MapScreenS> {
           ),
         ),
         drawer: myDrawer(),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         body: SafeArea(
             child: Container(
                 padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                color: Colors.red,
+                // color: Colors.red,
                 child: Column(children: [
                   SizedBox(height: 20),
                   Container(
@@ -241,122 +254,120 @@ class _MapScreenState extends State<MapScreenS> {
           ],
         ));
   }
-Widget FooterOfDrawer() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-       Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            color: Colors.blue.withOpacity(0),
-            border: Border.all(
-              color: Colors.white,
-              //width: 2.0,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 4,
+
+  Widget FooterOfDrawer() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: Colors.blue.withOpacity(0),
+              border: Border.all(
+                color: Colors.white,
+                //width: 2.0,
               ),
-            ],
-          ),
-          child:   Column(
-           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //  mainAxisSize: MainAxisSize.max,
-            children: [
-              Text("NFT"),
-               Container(
-                width: 150,
-                child:
-        Text(style:TextStyle(fontSize: 10),"""In the diagram above:
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 4,
+                ),
+              ],
+            ),
+            child: Column(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //  mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text("NFT"),
+                  Container(
+                      width: 150,
+                      child: Text(
+                          style: TextStyle(fontSize: 10),
+                          """In the diagram above:
 Orange demonstrates how Expanded widgets work inside a Column
-The key thing to understand is that mainAxisSize controls how""")
-            
-          ),
-         TextButton(onPressed:  null,child: Text("aaa"))]
-          )),
-      
-    
-      Column(
-        children: [
-          TextButton(
-            child:         Container(
-                            width: 50.0,
-                            height: 50.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.blue,
-                              border: Border.all(
-                                // добавление границы
-                                color: Colors.white,
-                                width: 2.0,
-                              ),
-                              boxShadow: [
-                                // добавление тени
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  spreadRadius: 2,
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
-                          ),
-            onPressed: () {},
-          ),
-          TextButton(
-            child:         Container(
-                            width: 50.0,
-                            height: 50.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.blue,
-                              border: Border.all(
-                                // добавление границы 
-                                color: Colors.white,
-                                width: 2.0,
-                              ),
-                              boxShadow: [
-                                // добавление тени
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  spreadRadius: 2,
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
-                          ),
-            onPressed: () {},
-          ),
-          TextButton(
-            child:        Container(
-                            width: 50.0,
-                            height: 50.0,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.blue,
-                              border: Border.all(
-                                // добавление границы
-                                color: Colors.white,
-                                width: 2.0,
-                              ),
-                              boxShadow: [
-                                // добавление тени
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  spreadRadius: 2,
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
-                          ),
-            onPressed: () {},
-          )
-        ],
-      )
-    ],
-  );
-}
+The key thing to understand is that mainAxisSize controls how""")),
+                  TextButton(onPressed: null, child: Text("aaa"))
+                ])),
+        Column(
+          children: [
+            TextButton(
+              child: Container(
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
+                  border: Border.all(
+                    // добавление границы
+                    color: Colors.white,
+                    width: 2.0,
+                  ),
+                  boxShadow: [
+                    // добавление тени
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                    ),
+                  ],
+                ),
+              ),
+              onPressed: () {},
+            ),
+            TextButton(
+              child: Container(
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
+                  border: Border.all(
+                    // добавление границы
+                    color: Colors.white,
+                    width: 2.0,
+                  ),
+                  boxShadow: [
+                    // добавление тени
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                    ),
+                  ],
+                ),
+              ),
+              onPressed: () {},
+            ),
+            TextButton(
+              child: Container(
+                width: 50.0,
+                height: 50.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue,
+                  border: Border.all(
+                    // добавление границы
+                    color: Colors.white,
+                    width: 2.0,
+                  ),
+                  boxShadow: [
+                    // добавление тени
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                    ),
+                  ],
+                ),
+              ),
+              onPressed: () {},
+            )
+          ],
+        )
+      ],
+    );
+  }
 
   Widget myDrawer() {
     return Drawer(
@@ -365,27 +376,28 @@ The key thing to understand is that mainAxisSize controls how""")
       // through the options in the drawer if there isn't enough vertical
       // space to fit everything.
       child: Container(
-        padding: EdgeInsetsDirectional.symmetric(horizontal: 10),
-        child:Column(
+          padding: EdgeInsetsDirectional.symmetric(horizontal: 10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // Important: Remove any padding from the ListView.
+            // padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
 
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        // Important: Remove any padding from the ListView.
-       // padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-
-        children: [
-          SizedBox(height: 100),
-          HeaderOfDrawer(),
-          SizedBox(height: 100),
-          Column(children:[Collection1(),
-          SizedBox(height: 20),
-          Collection1(),
-          SizedBox(height: 20),
-          Collection1()]),
-          SizedBox(height: 50),
-          FooterOfDrawer(),
-          SizedBox(height:20)
-        ],
-      )),
+            children: [
+              SizedBox(height: 100),
+              HeaderOfDrawer(),
+              SizedBox(height: 100),
+              Column(children: [
+                Collection1(),
+                SizedBox(height: 20),
+                Collection1(),
+                SizedBox(height: 20),
+                Collection1()
+              ]),
+              SizedBox(height: 50),
+              FooterOfDrawer(),
+              SizedBox(height: 20)
+            ],
+          )),
     );
   }
 }

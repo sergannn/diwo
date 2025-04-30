@@ -5,6 +5,7 @@ import 'package:flutter_application_1/image_store_screen.dart';
 import 'package:flutter_application_1/login_screen.dart';
 import 'package:flutter_application_1/map_from_loto.dart';
 import 'package:flutter_application_1/map_screen.dart';
+import 'package:flutter_application_1/map_screen_ser.dart';
 import 'package:flutter_application_1/profile_screen.dart';
 import 'package:flutter_application_1/registration_screen.dart';
 import 'package:flutter_application_1/start_screen.dart';
@@ -49,13 +50,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: const StartScreen(),
+      home: MapScreenS(), // const StartScreen(),
       routes: {
         '/splash': (context) => const SplashScreen(),
         '/registration': (context) => const RegistrationScreen(),
         '/profile': (context) => ProfileScreen(),
         '/map': (context) => const MapScreen(),
-        '/MapBoxLocationExample': (context) => MapBoxLocationExample(),
+        '/MapBoxxample': (context) => MapBoxLocationExample(),
         '/login': (context) => const LoginScreen(),
         '/image_store': (context) => const ImageStoreScreen(),
         '/animated_widgets': (context) => const MapScreen(),
