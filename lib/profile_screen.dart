@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/map_from_loto.dart';
+import 'package:flutter_application_1/map_screen.dart';
 //import 'package:flutter_application_1/map_screen.dart';
 import 'package:flutter_application_1/map_screen_ser.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -252,7 +254,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onPressed: () {
                   Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const MapScreenS()),
+      MaterialPageRoute(builder: (context) =>  MapBoxLocationExample()),
                   );
                 },
               ),
