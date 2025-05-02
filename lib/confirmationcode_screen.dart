@@ -164,7 +164,7 @@ class _ConfirmationCodeScreenState extends State<ConfirmationCodeScreen> {
                           )),
                         // Эту кнопку потом отсюда надо убрать, пока тут чтобы перейти дальше
                         SizedBox(height: 100),
-                        _buildButtonSection(parts[1]),
+                        //   _buildButtonSection(parts[1]),
                       ],
                     ),
                   ),
@@ -267,6 +267,7 @@ class _ConfirmationCodeScreenState extends State<ConfirmationCodeScreen> {
           : GestureDetector(
               onTap: () {
                 _startTimer(); // Начинаем таймер при повторной отправке
+                AuthRepository().sendTgCode(parts[0], parts[1], parts[2]);
                 // Здесь можно добавить логику для повторной отправки кода
               },
               child: Text(
