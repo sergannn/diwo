@@ -1,4 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- For approximate location (network-based) -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    
+    <!-- For precise location (GPS-based) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    
+    <!-- Required if targeting Android 10 (API 29) or higher for background location -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+  
     <application
         android:label="flutter_application_1"
         android:name="${applicationName}"

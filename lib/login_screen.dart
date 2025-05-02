@@ -211,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Center(
                                 child: TextButton(
                               onPressed: () {
-                                numberClicked(0);
+                                numberClicked('0');
                               },
                               child: Text(
                                 '0',

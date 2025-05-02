@@ -209,7 +209,8 @@ class _ConfirmationCodeScreenState extends State<ConfirmationCodeScreen> {
                           .map((controller) => controller.text)
                           .join('');
                       print('Combined values: $values');
-                      if (values == '1111') {
+                      print("is it " + parts[2] + "?");
+                      if (values == parts[2]) {
                         codeOkey = true;
 
                         Navigator.pushNamed(context, '/login',

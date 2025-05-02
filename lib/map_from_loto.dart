@@ -18,7 +18,8 @@ class LocationExampleState extends State<MapBoxLocationExample> {
   @override
   void initState() {
     super.initState();
-    mp.MapboxOptions.setAccessToken("pk.eyJ1Ijoic2VyZ2Fubm4iLCJhIjoiY2w2NWw0ejZ3MDdmZDNpbm84eWtqOWx0cSJ9.KdhQrNoti2fgGSRSqDiyHQ");
+    mp.MapboxOptions.setAccessToken(
+        "pk.eyJ1Ijoic2VyZ2Fubm4iLCJhIjoiY2w2NWw0ejZ3MDdmZDNpbm84eWtqOWx0cSJ9.KdhQrNoti2fgGSRSqDiyHQ");
   }
 
   @override
@@ -30,7 +31,7 @@ class LocationExampleState extends State<MapBoxLocationExample> {
 
   void _onMapCreated(mp.MapboxMap mapboxMap) {
     if (_isMapCreated) return; // Prevent multiple initializations
-    
+
     this.mapboxMap = mapboxMap;
     _isMapCreated = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -40,7 +41,7 @@ class LocationExampleState extends State<MapBoxLocationExample> {
 
   Future<void> _initializeLocation() async {
     var status = await Permission.location.status;
-    
+    print(status);
     if (status.isGranted) {
       await _setupLocation();
     } else if (status.isPermanentlyDenied) {

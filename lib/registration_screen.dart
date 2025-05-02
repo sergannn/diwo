@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/services.dart'
     show
         FilteringTextInputFormatter,
@@ -159,6 +161,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       children: [
         // Поле телефона
         TextFormField(
+          onTapUpOutside: (l) {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           maxLength: 10,
           onChanged: (value) async {
             if (value.length == 10) {
@@ -189,6 +194,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             color: Colors.white.withOpacity(_isPhoneValid ? 1 : 0.6),
           ),
           decoration: InputDecoration(
+            //   prefixStyle: TextStyle(color: Colors.white),
             prefixText: '+7',
             hintText: ' 000 000 00 01',
             hintStyle: GoogleFonts.inter(
@@ -261,6 +267,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       children: [
         // Поле ввода никнейма
         TextFormField(
+          onTapUpOutside: (l) {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           onChanged: (value) async {
             if (value.length < 12) {
               _isNickFilled = true;
@@ -478,6 +487,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
         onPressed: () async {
           context.loaderOverlay.show();
+          print(_nicknameController.text);
+          print("it was nickname");
+          final Random _random = Random();
+          var _randomNumber = 1000 + _random.nextInt(9000);
+          String nick = await AuthRepository().sendTgCode(
+              _phoneController.text, _nicknameController.text, _randomNumber);
+          context.loaderOverlay.hide();
+
           var regRes = await AuthRepository().register(
               email: _phoneController.text,
               password: "12345",
@@ -490,16 +507,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               _isNickAvailable = false;
             });
             return;
+          } else {
+            Navigator.pushNamed(context, '/confirmationcode',
+                arguments: _phoneController.text +
+                    '/' +
+                    _nicknameController.text +
+                    "/" +
+                    _randomNumber.toString());
           }
-
-          print(_nicknameController.text);
-          print("it was nickname");
-          String nick = await AuthRepository().sendTgCode(
-              _phoneController.text, _nicknameController.text, '1111');
-          context.loaderOverlay.hide();
-          Navigator.pushNamed(context, '/confirmationcode',
-              arguments:
-                  _phoneController.text + '/' + _nicknameController.text);
         },
         child: Text(
           'Зарегистрироваться',

