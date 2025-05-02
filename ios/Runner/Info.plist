@@ -61,5 +61,30 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- Required for App Store submission -->
+<key>NSCalendarsUsageDescription</key>
+<string>This app needs calendar access to [explain why, e.g., schedule events].</string>
+
+<key>NSContactsUsageDescription</key>
+<string>This app needs contacts access to [explain why, e.g., find friends].</string>
+
+<key>NSBluetoothPeripheralUsageDescription</key>
+<string>This app needs Bluetooth to [explain why, e.g., connect to devices].</string>
+
+<key>NSAppleMusicUsageDescription</key>
+<string>This app needs media access to [explain why, e.g., play background music].</string>
+
+<key>NSMotionUsageDescription</key>
+<string>This app needs motion data to [explain why, e.g., track fitness activity].</string>
+
+<key>NSSpeechRecognitionUsageDescription</key>
+<string>This app needs speech recognition to [explain why, e.g., enable voice commands].</string>
+
+<key>NSSiriUsageDescription</key>
+<string>This app needs Siri integration to [explain why, e.g., handle voice requests].</string>
+
+<!-- Optional (recommended to avoid future warnings) -->
+<key>NSBluetoothAlwaysUsageDescription</key>
+<string>This app needs Bluetooth for [explain why, e.g., continuous device connectivity].</string>
 </dict>
 </plist>
