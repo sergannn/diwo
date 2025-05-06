@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widgets/drawer.dart';
 import 'package:flutter_svg/svg.dart';
 import '../widgets/animated_widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -153,7 +154,7 @@ class _SliderScreenState extends State<SliderScreen> {
       ),
     );
   }
-
+/*
   Widget myDrawer() {
     return Drawer(
       backgroundColor: Colors.transparent,
@@ -276,7 +277,7 @@ class _SliderScreenState extends State<SliderScreen> {
         ),
       ),
     );
-  }
+  }*/
 }
 
 class Card extends StatelessWidget {
@@ -454,83 +455,6 @@ class HighlitedFrame extends StatelessWidget {
                 boxShadow: this.boxShadows,
               ),
               child: this.child,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class DrawerButton extends StatelessWidget {
-  const DrawerButton({
-    super.key,
-    required this.buttonText,
-  });
-
-  final String buttonText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTapDown: (details) {},
-            onTapUp: (details) {},
-            onTapCancel: () {},
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    const Color(0xFF000000),
-                    const Color(0xFF014984),
-                  ],
-                ),
-                border: Border.all(color: Color(0xFF11A8FD), width: 4),
-                borderRadius: BorderRadius.circular(25),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0xFF11A8FD).withOpacity(0.5),
-                    spreadRadius: 5,
-                    blurRadius: 15,
-                    offset: const Offset(0, 0),
-                  ),
-                ],
-              ),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  shadowColor: Colors.transparent,
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size(
-                    250,
-                    50,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-                onPressed: () {},
-                child: Text(
-                  buttonText,
-                  style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                    height: 1.0,
-                    letterSpacing: 0.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
             ),
           ),
         ],

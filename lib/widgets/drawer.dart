@@ -24,12 +24,32 @@ Widget myDrawer() {
                       // without gradient
                       Padding(
                         padding: const EdgeInsets.only(left: 5.0, right: 31.0),
-                        child: Container(
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                const Color(0xFF000000),
+                                const Color(0xFF014984),
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(45),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color(0xFF11A8FD).withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 15,
+                                offset: const Offset(0, 0),
+                              ),
+                            ],
+                          ),
                           child: CircleAvatar(
                             radius: 36, // Image radius 36 diameeter 72
                             // here local image assets/images/avatar.png
                             backgroundImage:
-                                const AssetImage('images/avatar.png'),
+                                const AssetImage('assets/images/avatar.png'),
                           ),
                         ),
                       ),
@@ -51,7 +71,7 @@ Widget myDrawer() {
                           Row(
                             children: [
                               // here image from assets/images/coin.png
-                              Image.asset('images/coin.png',
+                              Image.asset('assets/images/coin.png',
                                   width: 21, height: 21),
                               const SizedBox(width: 5.19),
                               Padding(
@@ -109,9 +129,9 @@ Widget myDrawer() {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      Image.asset('images/chest_bg.png',
+                      Image.asset('assets/images/chest_bg.png',
                           width: 220.3, height: 220.3), // 120-108
-                      Image.asset('images/box.png',
+                      Image.asset('assets/images/box.png',
                           width: 65.15, height: 59.45), // 108.98+11.32=120.3
                       Padding(
                         padding: EdgeInsets.only(top: 140.0),
@@ -147,7 +167,7 @@ class DrawerButton extends StatelessWidget {
   const DrawerButton({
     super.key,
     required this.buttonText,
-    required this.image,
+    this.image = '',
   });
 
   final String buttonText;
@@ -158,7 +178,7 @@ class DrawerButton extends StatelessWidget {
     return Container(
       width: double.infinity,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -193,30 +213,53 @@ class DrawerButton extends StatelessWidget {
                 ],
               ),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                CircleAvatar(
-                  radius: 30, // Adjust size
-                  backgroundColor:
-                      Colors.transparent, // Or your desired background color
-                  child: Center(
-                    // This ensures the image is centered
-                    child: Image.asset(
-                      image,
-                      width:
-                          30, // Adjust image size (smaller than CircleAvatar)
-                      height: 30,
-                    ),
-                  ),
-                ),
+                SizedBox(width: 10),
+                image == ''
+                    ? Container()
+                    : Container(
+                        decoration: BoxDecoration(
+                            // color: Colors.grey,
+                            border: Border.all(
+                                color: Colors.brown.withOpacity(0.2), width: 4),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(45))),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.black,
+                          radius: 30, // Adjust size
+                          //backgroundColor: Colors.red,
+//                            .transparent, // Or your desired background color
+                          child: Container(
+                            decoration: BoxDecoration(
+                              //   color: Colors.red,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.blue,
+                                    blurRadius: 12,
+                                    spreadRadius: 12)
+                              ],
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(45)),
+                            ),
+                            // This ensures the image is centered
+                            child: Image.asset(
+                              image,
+                              width:
+                                  15, // Adjust image size (smaller than CircleAvatar)
+                              height: 15,
+                            ),
+                          ),
+                        )),
+                SizedBox(width: 15),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
                     elevation: 0,
                     shadowColor: Colors.transparent,
                     padding: EdgeInsets.zero,
-                    minimumSize: Size(
+                    /*  minimumSize: Size(
                       150,
                       50,
-                    ),
+                    ),*/
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100),
                     ),
@@ -224,8 +267,9 @@ class DrawerButton extends StatelessWidget {
                   onPressed: () {},
                   child: Text(
                     buttonText,
+                    textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontFamily: 'Lato',
+                      fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
                       height: 1.0,
