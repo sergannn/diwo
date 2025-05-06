@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/animated_widgets.dart';
+import 'package:flutter_application_1/widgets/animated_widgets.dart';
 import 'package:flutter_application_1/confirmationcode_screen.dart';
 import 'package:flutter_application_1/image_store_screen.dart';
 import 'package:flutter_application_1/login_screen.dart';
@@ -50,12 +50,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: const StartScreen(),//MapScreenS(), 
+      home: const ProfileScreenSer(), //MapScreenS(),
       routes: {
         '/splash': (context) => const SplashScreen(),
         '/registration': (context) => const RegistrationScreen(),
         '/profile': (context) => ProfileScreen(),
         '/map': (context) => const MapScreen(),
+        '/profileScreenSer': (context) => ProfileScreenSer(),
         '/MapBoxExample': (context) => MapBoxLocationExample(),
         '/login': (context) => const LoginScreen(),
         '/image_store': (context) => const ImageStoreScreen(),

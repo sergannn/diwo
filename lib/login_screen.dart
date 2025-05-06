@@ -328,7 +328,7 @@ class _LoginScreenState extends State<LoginScreen> {
               password2 = '';
             });
           } else {
-            Navigator.pushNamed(context, '/MapBoxExample');
+            Navigator.pushNamed(context, '/MapScreenS');
           }
         }
         if (mode == 'register') {
