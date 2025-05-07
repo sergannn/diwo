@@ -1,6 +1,8 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+
+
+
 
 Widget myDrawer() {
   return Drawer(
@@ -134,7 +136,7 @@ Widget myDrawer() {
                       Image.asset('assets/images/box.png',
                           width: 65.15, height: 59.45), // 108.98+11.32=120.3
                       Padding(
-                        padding: EdgeInsets.only(top: 140.0),
+                        padding: EdgeInsets.only(top: 150.0),
                         child: Text(
                           '5:50',
                           style: TextStyle(
@@ -162,6 +164,8 @@ Widget myDrawer() {
     ),
   );
 }
+
+
 
 class DrawerButton extends StatelessWidget {
   const DrawerButton({
@@ -215,18 +219,18 @@ class DrawerButton extends StatelessWidget {
                       color: Color(0xFF11A8FD),
                       width: 4), // Тонкая правая граница
                 ),
-                borderRadius: BorderRadius.circular(25),
+                borderRadius: BorderRadius.circular(32),
                 boxShadow: [
                   BoxShadow(
                     color: Color(0xFF11A8FD).withOpacity(0.5),
                     spreadRadius: 5,
-                    blurRadius: 15,
+                    blurRadius: 10,
                     offset: const Offset(0, 0),
                   ),
                 ],
               ),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                SizedBox(width: 10),
+                SizedBox(width: 5),
                 image == ''
                     ? Container()
                     : Container(

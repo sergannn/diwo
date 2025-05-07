@@ -31,6 +31,8 @@ class _MapScreenState extends State<ProfileScreenSer> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: Image.asset(
+       //   : Colors.red,
+          //color: Colors.red,
           'assets/images/bottom_bar.png',
         ), //, fit: BoxFit.cover),
         /*BottomNavigationBar(
@@ -44,7 +46,7 @@ class _MapScreenState extends State<ProfileScreenSer> {
           selectedItemColor: Colors.amber[800],
           onTap: (a) {},
         ),*/
-        /*   appBar: AppBar(
+         /*  appBar: AppBar(
           backgroundColor: Color(0xFF020E18),
           title: const Text(''),
           leading: Builder(
@@ -63,7 +65,7 @@ class _MapScreenState extends State<ProfileScreenSer> {
         body: DefaultTextStyle(
             style: TextStyle(color: Colors.white),
             child: Container(
-                padding: EdgeInsets.only(top: 20),
+                padding: EdgeInsets.only(top: 30),
                 child: SingleChildScrollView(
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
@@ -99,6 +101,7 @@ class _MapScreenState extends State<ProfileScreenSer> {
                               // Гибкое пространство между вторым и третьм элементом
                               Spacer(),
                               // Третий элемент (прижат вправо)
+                              GestureDetector(child:
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -128,28 +131,32 @@ class _MapScreenState extends State<ProfileScreenSer> {
                                     ),
                                   ),
                                 ),
-                              )
+                              ),
+                              onTap:() {
+//   openDrawer();
+                              }),
                             ],
                           ),
                         ),
                         SizedBox(height: 20),
                         _ProfileCardK(),
-                        SizedBox(height: 10),
+                        SizedBox(height: 2),
                         LinearChartK(),
                         SizedBox(height: 20),
-                        SizedBox(height: 20),
+                       // SizedBox(height: 20),
                         _StatsRowDeepSeek(),
-                        SizedBox(height: 20),
+                        SizedBox(height: 40),
                         _CoinsRow(),
-                        SizedBox(height: 20),
+                        SizedBox(height: 10),
+                       
                         _LargeProfileAvatar(),
-                        SizedBox(height: 20),
+                        SizedBox(height: 40),
                         Text(
                           "Моя коллекция",
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 40),
                         _CollectionRow(),
                         SliderScreen(),
                         _BottomRow()
@@ -159,6 +166,8 @@ class _MapScreenState extends State<ProfileScreenSer> {
                 ))));
   }
 }
+
+
 
 class _CoinsRow extends StatelessWidget {
   @override
@@ -170,7 +179,9 @@ class _CoinsRow extends StatelessWidget {
           spacing: 10,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Image.asset('assets/images/coin_mid.png'),
+            Image.asset('assets/images/coin.png',
+            width: 33,
+            height: 33),
             _CoinsIndicators(),
             Spacer(),
             Container(
@@ -194,7 +205,13 @@ class _CoinsIndicators extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(child: Text("Монеты")),
+        Container(child: Text("Монеты",
+           style: TextStyle(
+        fontFamily: 'Montserrat',
+        fontWeight: FontWeight.w600,
+        fontSize: 18,
+        color: Colors.white,
+        ))),
         SizedBox(height: 5),
         Container(
             child: Text("25 января 2025",
@@ -585,7 +602,7 @@ class _FriendAvatarsK extends StatelessWidget {
           ),
           child: Center(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
+
               child: SizedBox(
                 height: 20, // размер по высоте
                 child: Image.asset(
@@ -606,7 +623,6 @@ class _FriendAvatarsK extends StatelessWidget {
           ),
           child: Center(
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
               child: SizedBox(
                 height: 22, // размер по высоте
                 child: Image.asset(
@@ -750,8 +766,8 @@ class _StatIndicatorsRight extends StatelessWidget {
       children: [
         SizedBox(width: 20),
         Image.asset(
-          'assets/images/coin_mid.png',
-          width: 30,
+          'assets/images/coin.png',
+          width: 20,
         ),
         SizedBox(width: 10),
         Text("+600")
@@ -784,8 +800,9 @@ class _StatMainIndicatorRight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        SizedBox(width:21),
         Text("Монет в час",
             style: TextStyle(
                 fontFamily: 'Montserrat',
@@ -798,6 +815,61 @@ class _StatMainIndicatorRight extends StatelessWidget {
 }
 
 class _CollectionRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // width: 500,
+      height: 53,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(23)),
+        color: Color.fromRGBO(1, 59, 92, 1),
+        //border: Border.all(color: Colors.blue),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 4,
+          ),
+        ],
+      ),
+      padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width * 0.05),
+      child: Row(
+          spacing: 10,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+                radius: 20,
+                backgroundImage: AssetImage('assets/images/slider3.png')),
+            _CollectionRowIndicators(),
+            Spacer(),
+            CircleAvatar(
+                radius: 12,
+                backgroundColor: Colors.blue,
+                child: Icon(
+                  Icons.currency_ruble,
+                  size: 16,
+                )),
+            Container(
+                child: Text(
+              "9 000",
+              style: GoogleFonts.montserrat(
+                fontSize: 16,
+                fontWeight: FontWeight.w600, // Semibold
+                color: Colors.white,
+              ),
+            )),
+            Container(
+                width: 10,
+                height: 18,
+                child: Image.asset('assets/images/arrowRight.png'))
+          ]),
+    );
+  }
+}
+class _CollectionRowS extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

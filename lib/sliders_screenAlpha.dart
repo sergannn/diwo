@@ -47,7 +47,7 @@ class _SliderScreenState extends State<SliderScreen> {
       children: [
         // SizedBox(height: 120),
         Container(
-          height: 500,
+          height: 400,
           width: double.infinity,
           child: CarouselSlider(
             options: CarouselOptions(
