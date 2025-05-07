@@ -42,7 +42,8 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/allfone.png'),
+            alignment: Alignment(0, -0.4),
+            image: AssetImage('assets/images/logoK.png'),
             fit: BoxFit.contain,
           ),
         ),

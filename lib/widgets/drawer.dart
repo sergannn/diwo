@@ -201,7 +201,20 @@ class DrawerButton extends StatelessWidget {
                     const Color(0xFF014984),
                   ],
                 ),
-                border: Border.all(color: Color(0xFF11A8FD), width: 4),
+                border: Border(
+                  top: BorderSide(
+                      color: Color(0xFF11A8FD),
+                      width: 2), // Толстая верхняя граница
+                  bottom: BorderSide(
+                      color: Color(0xFF11A8FD),
+                      width: 2), // Толстая нижняя граница
+                  left: BorderSide(
+                      color: Color(0xFF11A8FD),
+                      width: 4), // Тонкая левая граница
+                  right: BorderSide(
+                      color: Color(0xFF11A8FD),
+                      width: 4), // Тонкая правая граница
+                ),
                 borderRadius: BorderRadius.circular(25),
                 boxShadow: [
                   BoxShadow(
@@ -235,7 +248,7 @@ class DrawerButton extends StatelessWidget {
                                 BoxShadow(
                                     color: Colors.blue,
                                     blurRadius: 12,
-                                    spreadRadius: 12)
+                                    spreadRadius: 8.5)
                               ],
                               borderRadius:
                                   BorderRadius.all(Radius.circular(45)),

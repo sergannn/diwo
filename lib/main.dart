@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: const ProfileScreenSer(), //MapScreenS(),
+      home: const StartScreen(), //MapScreenS(),
       routes: {
         '/splash': (context) => const SplashScreen(),
         '/registration': (context) => const RegistrationScreen(),

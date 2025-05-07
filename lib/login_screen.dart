@@ -328,7 +328,7 @@ class _LoginScreenState extends State<LoginScreen> {
               password2 = '';
             });
           } else {
-            Navigator.pushNamed(context, '/MapScreenS');
+            Navigator.pushNamed(context, '/profileScreenSer');
           }
         }
         if (mode == 'register') {

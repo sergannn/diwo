@@ -44,8 +44,8 @@ class _MapScreenState extends State<ProfileScreenSer> {
           selectedItemColor: Colors.amber[800],
           onTap: (a) {},
         ),*/
-        appBar: AppBar(
-          backgroundColor: Colors.black,
+        /*   appBar: AppBar(
+          backgroundColor: Color(0xFF020E18),
           title: const Text(''),
           leading: Builder(
             builder: (context) {
@@ -57,86 +57,239 @@ class _MapScreenState extends State<ProfileScreenSer> {
               );
             },
           ),
-        ),
+        ),*/
         drawer: myDrawer.myDrawer(),
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xFF020E18),
         body: DefaultTextStyle(
             style: TextStyle(color: Colors.white),
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+            child: Container(
+                padding: EdgeInsets.only(top: 20),
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                    child: Column(
                       children: [
-                        // Первый элемент
-                        CircleAvatar(
-                            backgroundColor: Color.fromRGBO(15, 34, 56, 1),
-                            child: Icon(Icons.arrow_back_ios),
-                            radius: 32),
-                        SizedBox(width: 8, height: 52),
-
-                        // Второй элемент
-                        Text("Профиль"),
-
-                        // Гибкое пространство между вторым и третьим элементом
-                        Spacer(),
-
-                        // Третий элемент (прижат вправо)
-                        CircleAvatar(
-                            child: Image.asset(
-                              'assets/images/location.png',
-                              width: 30,
-                            ),
-                            radius: 32), // Image radius 36 diameeter 72
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: 64,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              // Первый элемент
+                              CircleAvatar(
+                                backgroundColor: Color(0xFF162E3F),
+                                radius:
+                                    26, // размер 52 делится на 2 для радиуса
+                                child: Icon(Icons.arrow_back_ios_new,
+                                    color: Color(0xFF209FFF)),
+                              ),
+                              SizedBox(width: 17, height: 52),
+                              // Второй элемент
+                              SizedBox(width: 6),
+                              Text(
+                                "Профиль",
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600, // Semibold
+                                  color: Colors.white,
+                                ),
+                              ),
+                              // Гибкое пространство между вторым и третьм элементом
+                              Spacer(),
+                              // Третий элемент (прижат вправо)
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color(0xFF209FFF),
+                                    width: 1.4,
+                                  ),
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color(0xFF209FFF).withOpacity(0.5),
+                                      spreadRadius: 8,
+                                      blurRadius: 10,
+                                    ),
+                                  ],
+                                ),
+                                child: CircleAvatar(
+                                  backgroundColor: Color(0xFF162E3F),
+                                  radius: 26,
+                                  child: ClipOval(
+                                    child: SizedBox(
+                                      width: 30,
+                                      height: 40,
+                                      child: Image.asset(
+                                        'assets/images/location.png',
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        _ProfileCardK(),
+                        SizedBox(height: 10),
+                        LinearChartK(),
+                        SizedBox(height: 20),
+                        SizedBox(height: 20),
+                        _StatsRowDeepSeek(),
+                        SizedBox(height: 20),
+                        _CoinsRow(),
+                        SizedBox(height: 20),
+                        _LargeProfileAvatar(),
+                        SizedBox(height: 20),
+                        Text(
+                          "Моя коллекция",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 18),
+                        ),
+                        SizedBox(height: 20),
+                        _CollectionRow(),
+                        SliderScreen(),
+                        _BottomRow()
                       ],
                     ),
-                    SizedBox(height: 20),
-                    _ProfileCard(),
-                    SizedBox(height: 10),
-                    LinearChart(),
-                    SizedBox(height: 20),
-                    /* Container(
-                      //   width: 128,
-                      height: 7.06,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        child: LinearProgressIndicator(
-                          value: 0.7,
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Color(0xff209FFF)),
-                          backgroundColor: Color(0xff282C30),
-                        ),
-                      ),
-                    ),*/
-                    SizedBox(height: 20),
-                    _StatsRow(),
-                    SizedBox(height: 20),
-                    //  _CoinsRow(),
-                    SizedBox(height: 20),
-                    _LargeProfileAvatar(),
-                    SizedBox(height: 20),
-                    Text(
-                      "Моя коллекция",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-                    ),
-                    SizedBox(height: 20),
-                    _CollectionRow(),
-                    SliderScreen(),
-                    _BottomRow()
-                  ],
-                ),
-              ),
-            )));
+                  ),
+                ))));
   }
 }
 
+class _CoinsRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: double.infinity, // Take full available width
+        padding: EdgeInsets.symmetric(horizontal: 20), // Match parent padding
+        child: Row(
+          spacing: 10,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Image.asset('assets/images/coin_mid.png'),
+            _CoinsIndicators(),
+            Spacer(),
+            Container(
+                child: Text(
+              "5060",
+              style: TextStyle(
+                fontFamily: 'Urbanist',
+                fontWeight: FontWeight.w600,
+                fontSize: 44,
+                color: Color(0xFFEEC61E),
+              ),
+            )),
+          ],
+        ));
+  }
+}
+
+class _CoinsIndicators extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(child: Text("Монеты")),
+        SizedBox(height: 5),
+        Container(
+            child: Text("25 января 2025",
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: Colors.white.withOpacity(0.5)))),
+        //width: 10, height: 10, color: Colors.blue),
+      ],
+    );
+  }
+}
+
+class _ProfileCardK extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(50)),
+        color: Color(0xFF020E18),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFF020E18),
+            spreadRadius: 2,
+            blurRadius: 4,
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          _ProfileAvatarK(size: 80),
+          SizedBox(width: 30),
+          _ProfileInfoK(),
+        ],
+      ),
+    );
+  }
+}
 // Отдельные виджеты:
+
+class _ProfileAvatarK extends StatelessWidget {
+  final double size;
+
+  const _ProfileAvatarK({required this.size});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFF209FFF).withOpacity(0.5),
+            spreadRadius: 8,
+            blurRadius: 14,
+          ),
+        ],
+      ),
+      child: CircleAvatar(
+        backgroundColor: Colors.blue,
+        radius: 32,
+        backgroundImage: const AssetImage('assets/images/avatar.png'),
+      ),
+    );
+  }
+}
+
+class _ProfileInfoK extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Logist_8888",
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontWeight: FontWeight.w600,
+            fontSize: 18,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(height: 5),
+        _FollowersInfo(),
+        SizedBox(height: 10),
+        _FriendAvatarsK(),
+      ],
+    );
+  }
+}
 
 class _BottomRow extends StatelessWidget {
   @override
@@ -240,6 +393,65 @@ Widget ObmenButton() {
     ]),
   );
 }
+/*
+class _FriendAvatars extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        CircleAvatar(
+          radius: 20, // Общий размер круга
+          backgroundColor: Color.fromRGBO(15, 34, 56, 1),
+          //  foregroundImage: AssetImage('images/iconunderphone1.png'),
+          child: ClipOval(
+            child: SizedBox(
+              width: 15, // Ширина изображения (вдвое меньше общего диаметра)
+              height: 15,
+              child: Image.asset(
+                'assets/images/iconunderphone1.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(width: 5),
+        CircleAvatar(
+          radius: 20, // Общий размер круга
+          backgroundColor: Color.fromRGBO(15, 34, 56, 1),
+          //  foregroundImage: AssetImage('images/iconunderphone1.png'),
+          child: ClipOval(
+            child: SizedBox(
+              width: 15, // Ширина изображения (вдвое меньше общего диаметра)
+              height: 15,
+              child: Image.asset(
+                color: Colors.blue,
+                'assets/images/iconunderphone2.png',
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(width: 5),
+        CircleAvatar(
+          radius: 20, // Общий размер круга
+          backgroundColor: Color.fromRGBO(15, 34, 56, 1),
+          //  foregroundImage: AssetImage('images/iconunderphone1.png'),
+          child: ClipOval(
+            child: SizedBox(
+              width: 15, // Ширина изображения (вдвое меньше общего диаметра)
+              height: 15,
+              child: Image.asset(
+                color: Colors.blue,
+                'assets/images/iconunderphone3.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 class _ProfileCard extends StatelessWidget {
   @override
@@ -312,76 +524,117 @@ class _ProfileInfo extends StatelessWidget {
         SizedBox(height: 5),
         _FollowersInfo(),
         SizedBox(height: 10),
-        _FriendAvatars(),
+        _FriendAvatarsK(),
       ],
     );
   }
-}
+}*/
 
 class _FollowersInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [Text("a"), Text("followers"), Text("b|"), Text("Following")],
+      children: [
+        Text(
+          "7 (911) 787 98 78",
+          style: TextStyle(
+            fontFamily: 'Montserrat',
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            color: Colors.white.withOpacity(0.5),
+          ),
+        ),
+      ],
     );
   }
 }
 
-class _FriendAvatars extends StatelessWidget {
+class _FriendAvatarsK extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          radius: 20, // Общий размер круга
-          backgroundColor: Color.fromRGBO(15, 34, 56, 1),
-          //  foregroundImage: AssetImage('images/iconunderphone1.png'),
-          child: ClipOval(
-            child: SizedBox(
-              width: 15, // Ширина изображения (вдвое меньше общего диаметра)
-              height: 15,
-              child: Image.asset(
-                'assets/images/iconunderphone1.png',
-                fit: BoxFit.cover,
+        Container(
+          width: 57,
+          height: 45,
+          decoration: BoxDecoration(
+            color: Color(0xFF0F2238),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(0),
+              child: SizedBox(
+                width: 22, // ширина
+                height: 20, // размер по высоте
+                child: Image.asset(
+                  'assets/images/iconunderphone1.png',
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
         ),
-        SizedBox(width: 5),
-        CircleAvatar(
-          radius: 20, // Общий размер круга
-          backgroundColor: Color.fromRGBO(15, 34, 56, 1),
-          //  foregroundImage: AssetImage('images/iconunderphone1.png'),
-          child: ClipOval(
-            child: SizedBox(
-              width: 15, // Ширина изображения (вдвое меньше общего диаметра)
-              height: 15,
-              child: Image.asset(
-                color: Colors.blue,
-                'assets/images/iconunderphone2.png',
-                fit: BoxFit.contain,
+        SizedBox(width: 8),
+        Container(
+          width: 57,
+          height: 45,
+          decoration: BoxDecoration(
+            color: Color(0xFF0F2238),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: SizedBox(
+                height: 20, // размер по высоте
+                child: Image.asset(
+                  'assets/images/iconunderphone2.png',
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
         ),
-        SizedBox(width: 5),
-        CircleAvatar(
-          radius: 20, // Общий размер круга
-          backgroundColor: Color.fromRGBO(15, 34, 56, 1),
-          //  foregroundImage: AssetImage('images/iconunderphone1.png'),
-          child: ClipOval(
-            child: SizedBox(
-              width: 15, // Ширина изображения (вдвое меньше общего диаметра)
-              height: 15,
-              child: Image.asset(
-                color: Colors.blue,
-                'assets/images/iconunderphone3.png',
-                fit: BoxFit.cover,
+        SizedBox(width: 8),
+        Container(
+          width: 57,
+          height: 45,
+          decoration: BoxDecoration(
+            color: Color(0xFF0F2238),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: SizedBox(
+                height: 22, // размер по высоте
+                child: Image.asset(
+                  'assets/images/iconunderphone3.png',
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
           ),
         ),
       ],
+    );
+  }
+}
+
+class _StatsRowDeepSeek extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity, // Take full available width
+      padding: EdgeInsets.symmetric(horizontal: 20), // Match parent padding
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Distribute space
+        children: [
+          _StatCardLeft(width: 167),
+          _StatCardRight(width: 143),
+        ],
+      ),
     );
   }
 }
@@ -516,7 +769,11 @@ class _StatMainIndicatorLeft extends StatelessWidget {
       children: [
         Text(
           "Пазлов до следующего \n уровня",
-          style: TextStyle(fontSize: 10),
+          style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w500,
+              fontSize: 11,
+              color: Colors.white.withOpacity(0.5)),
         )
       ],
     );
@@ -529,30 +786,16 @@ class _StatMainIndicatorRight extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          "Монет в час",
-          style: TextStyle(fontSize: 10),
-        )
+        Text("Монет в час",
+            style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w500,
+                fontSize: 11,
+                color: Colors.white.withOpacity(0.5)))
       ],
     );
   }
 }
-/*
-class _CoinsRow extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      spacing: 10,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Image.asset('assets/images/coin_mid.png'),
-        _CoinsIndicators(),
-        Spacer(),
-        Container(child: Text("5000")),
-      ],
-    );
-  }
-}*/
 
 class _CollectionRow extends StatelessWidget {
   @override
