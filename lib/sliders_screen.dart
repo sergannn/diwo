@@ -39,7 +39,7 @@ class _SliderScreenState extends State<SliderScreen> {
           },
         ),
       ),
-      drawer: myDrawer(),
+      drawer: myDrawer(context),
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Container(

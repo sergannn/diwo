@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/rating_screen.dart';
 import 'package:flutter_application_1/widgets/animated_widgets.dart';
 import 'package:flutter_application_1/confirmationcode_screen.dart';
 import 'package:flutter_application_1/image_store_screen.dart';
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
         '/image_store': (context) => const ImageStoreScreen(),
         '/animated_widgets': (context) => const MapScreen(),
         '/confirmationcode': (context) => const ConfirmationCodeScreen(),
+        '/rating': (context) => const RatingScreenSer(),
       },
     ));
   }

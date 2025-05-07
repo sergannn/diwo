@@ -161,6 +161,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       children: [
         // Поле телефона
         TextFormField(
+          autofocus: true,
           onTapUpOutside: (l) {
             FocusManager.instance.primaryFocus?.unfocus();
           },

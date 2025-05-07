@@ -1,10 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-
-
-
-Widget myDrawer() {
+Widget myDrawer(context) {
   return Drawer(
     backgroundColor: Colors.transparent,
     child: Center(
@@ -18,98 +15,103 @@ Widget myDrawer() {
             child: Column(
               children: [
                 const SizedBox(height: 64.59),
-                Container(
-                  padding: EdgeInsets.only(top: 8.0),
-                  width: double.infinity,
-                  child: Row(
-                    children: [
-                      // without gradient
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5.0, right: 31.0),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                              colors: [
-                                const Color(0xFF000000),
-                                const Color(0xFF014984),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(45),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color(0xFF11A8FD).withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 15,
-                                offset: const Offset(0, 0),
-                              ),
-                            ],
-                          ),
-                          child: CircleAvatar(
-                            radius: 36, // Image radius 36 diameeter 72
-                            // here local image assets/images/avatar.png
-                            backgroundImage:
-                                const AssetImage('assets/images/avatar.png'),
-                          ),
-                        ),
-                      ),
-
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/profileScreenSer');
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(top: 8.0),
+                      width: double.infinity,
+                      child: Row(
                         children: [
-                          const SizedBox(height: 5.43),
-                          Text(
-                            'Logist_8888',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                          // without gradient
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 5.0, right: 31.0),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [
+                                    const Color(0xFF000000),
+                                    const Color(0xFF014984),
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(45),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color(0xFF11A8FD).withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 15,
+                                    offset: const Offset(0, 0),
+                                  ),
+                                ],
+                              ),
+                              child: CircleAvatar(
+                                radius: 36, // Image radius 36 diameeter 72
+                                // here local image assets/images/avatar.png
+                                backgroundImage: const AssetImage(
+                                    'assets/images/avatar.png'),
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 11),
-                          Row(
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              // here image from assets/images/coin.png
-                              Image.asset('assets/images/coin.png',
-                                  width: 21, height: 21),
-                              const SizedBox(width: 5.19),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 3.0),
-                                child: Text(
-                                  '5 060',
-                                  style: TextStyle(
-                                    // Roboto
-                                    fontSize: 13.37,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
+                              const SizedBox(height: 5.43),
+                              Text(
+                                'Logist_8888',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
                                 ),
                               ),
+                              const SizedBox(height: 11),
+                              Row(
+                                children: [
+                                  // here image from assets/images/coin.png
+                                  Image.asset('assets/images/coin.png',
+                                      width: 21, height: 21),
+                                  const SizedBox(width: 5.19),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 3.0),
+                                    child: Text(
+                                      '5 060',
+                                      style: TextStyle(
+                                        // Roboto
+                                        fontSize: 13.37,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8.0),
+                              Container(
+                                width: 128,
+                                height: 7.06,
+                                child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5)),
+                                  child: LinearProgressIndicator(
+                                    value: 0.7,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Color(0xff209FFF)),
+                                    backgroundColor: Color(0xff282C30),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
-                          const SizedBox(height: 8.0),
-                          Container(
-                            width: 128,
-                            height: 7.06,
-                            child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                              child: LinearProgressIndicator(
-                                value: 0.7,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    Color(0xff209FFF)),
-                                backgroundColor: Color(0xff282C30),
-                              ),
-                            ),
-                          )
                         ],
                       ),
-                    ],
-                  ),
-                ),
+                    )),
                 const SizedBox(height: 45.97),
                 DrawerButton(
                     buttonText: 'Коллекции пазлов',
@@ -165,8 +167,6 @@ Widget myDrawer() {
   );
 }
 
-
-
 class DrawerButton extends StatelessWidget {
   const DrawerButton({
     super.key,
@@ -186,7 +186,11 @@ class DrawerButton extends StatelessWidget {
         children: [
           GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTapDown: (details) {},
+            onTapDown: (details) {
+              //  onPressed: () {
+              Navigator.pushNamed(context, '/rating');
+              //  },
+            },
             onTapUp: (details) {},
             onTapCancel: () {},
             child: AnimatedContainer(

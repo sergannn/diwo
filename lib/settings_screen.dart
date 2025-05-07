@@ -57,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreenSer> {
             },
           ),
         ),
-        drawer: myDrawer(),
+        drawer: myDrawer(context),
         backgroundColor: Colors.black,
         body: DefaultTextStyle(
             style: TextStyle(color: Colors.white),

@@ -30,11 +30,16 @@ class _MapScreenState extends State<ProfileScreenSer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: Image.asset(
-       //   : Colors.red,
-          //color: Colors.red,
-          'assets/images/bottom_bar.png',
-        ), //, fit: BoxFit.cover),
+        bottomNavigationBar: Container(
+          color: Colors.transparent, // This makes the container transparent
+          child: Image.asset(
+            'assets/images/bottom_bar.png',
+            fit: BoxFit.cover,
+            color:
+                Colors.white.withOpacity(0.5), // Optional: adjust image opacity
+            colorBlendMode: BlendMode.modulate, // Optional: blending mode
+          ),
+        ),
         /*BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
@@ -46,7 +51,7 @@ class _MapScreenState extends State<ProfileScreenSer> {
           selectedItemColor: Colors.amber[800],
           onTap: (a) {},
         ),*/
-         /*  appBar: AppBar(
+        /*  appBar: AppBar(
           backgroundColor: Color(0xFF020E18),
           title: const Text(''),
           leading: Builder(
@@ -60,7 +65,7 @@ class _MapScreenState extends State<ProfileScreenSer> {
             },
           ),
         ),*/
-        drawer: myDrawer.myDrawer(),
+        drawer: myDrawer.myDrawer(context),
         backgroundColor: Color(0xFF020E18),
         body: DefaultTextStyle(
             style: TextStyle(color: Colors.white),
@@ -101,40 +106,41 @@ class _MapScreenState extends State<ProfileScreenSer> {
                               // Гибкое пространство между вторым и третьм элементом
                               Spacer(),
                               // Третий элемент (прижат вправо)
-                              GestureDetector(child:
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Color(0xFF209FFF),
-                                    width: 1.4,
-                                  ),
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color(0xFF209FFF).withOpacity(0.5),
-                                      spreadRadius: 8,
-                                      blurRadius: 10,
+                              GestureDetector(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Color(0xFF209FFF),
+                                        width: 1.4,
+                                      ),
+                                      shape: BoxShape.circle,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0xFF209FFF)
+                                              .withOpacity(0.5),
+                                          spreadRadius: 8,
+                                          blurRadius: 10,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                                child: CircleAvatar(
-                                  backgroundColor: Color(0xFF162E3F),
-                                  radius: 26,
-                                  child: ClipOval(
-                                    child: SizedBox(
-                                      width: 30,
-                                      height: 40,
-                                      child: Image.asset(
-                                        'assets/images/location.png',
-                                        fit: BoxFit.contain,
+                                    child: CircleAvatar(
+                                      backgroundColor: Color(0xFF162E3F),
+                                      radius: 26,
+                                      child: ClipOval(
+                                        child: SizedBox(
+                                          width: 30,
+                                          height: 40,
+                                          child: Image.asset(
+                                            'assets/images/location.png',
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              onTap:() {
+                                  onTap: () {
 //   openDrawer();
-                              }),
+                                  }),
                             ],
                           ),
                         ),
@@ -143,12 +149,12 @@ class _MapScreenState extends State<ProfileScreenSer> {
                         SizedBox(height: 2),
                         LinearChartK(),
                         SizedBox(height: 20),
-                       // SizedBox(height: 20),
+                        // SizedBox(height: 20),
                         _StatsRowDeepSeek(),
                         SizedBox(height: 40),
                         _CoinsRow(),
                         SizedBox(height: 10),
-                       
+
                         _LargeProfileAvatar(),
                         SizedBox(height: 40),
                         Text(
@@ -167,8 +173,6 @@ class _MapScreenState extends State<ProfileScreenSer> {
   }
 }
 
-
-
 class _CoinsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -179,9 +183,7 @@ class _CoinsRow extends StatelessWidget {
           spacing: 10,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Image.asset('assets/images/coin.png',
-            width: 33,
-            height: 33),
+            Image.asset('assets/images/coin.png', width: 33, height: 33),
             _CoinsIndicators(),
             Spacer(),
             Container(
@@ -205,13 +207,14 @@ class _CoinsIndicators extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(child: Text("Монеты",
-           style: TextStyle(
-        fontFamily: 'Montserrat',
-        fontWeight: FontWeight.w600,
-        fontSize: 18,
-        color: Colors.white,
-        ))),
+        Container(
+            child: Text("Монеты",
+                style: TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  color: Colors.white,
+                ))),
         SizedBox(height: 5),
         Container(
             child: Text("25 января 2025",
@@ -602,7 +605,6 @@ class _FriendAvatarsK extends StatelessWidget {
           ),
           child: Center(
             child: ClipRRect(
-
               child: SizedBox(
                 height: 20, // размер по высоте
                 child: Image.asset(
@@ -802,7 +804,7 @@ class _StatMainIndicatorRight extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SizedBox(width:21),
+        SizedBox(width: 21),
         Text("Монет в час",
             style: TextStyle(
                 fontFamily: 'Montserrat',
@@ -869,6 +871,7 @@ class _CollectionRow extends StatelessWidget {
     );
   }
 }
+
 class _CollectionRowS extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

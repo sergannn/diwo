@@ -62,7 +62,8 @@ class _MapScreenState extends State<ProfileScreenSer> {
                 child: Column(children: [
                   SizedBox(height: 20),
                   Container(
-                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(50)),
                         //shape: BoxShape.circle,
@@ -107,10 +108,18 @@ class _MapScreenState extends State<ProfileScreenSer> {
                               ],
                             ),
                           ),
-                          Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                            Text("Джек"),
-                            Row(children: [Text("a"), Text("followers"), Text("b|"), Text("Following")])
-                          ]),
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Джек"),
+                                Row(children: [
+                                  Text("a"),
+                                  Text("followers"),
+                                  Text("b|"),
+                                  Text("Following")
+                                ])
+                              ]),
                         ],
                       )),
                 ]))));
@@ -204,7 +213,8 @@ class _MapScreenState extends State<ProfileScreenSer> {
             filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
             child: Container(
               padding: EdgeInsets.only(left: 16, right: 22),
-              decoration: BoxDecoration(color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5)),
+              decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5)),
               child: Column(
                 children: [
                   const SizedBox(height: 64.59),
@@ -215,12 +225,14 @@ class _MapScreenState extends State<ProfileScreenSer> {
                       children: [
                         // without gradient
                         Padding(
-                          padding: const EdgeInsets.only(left: 5.0, right: 31.0),
+                          padding:
+                              const EdgeInsets.only(left: 5.0, right: 31.0),
                           child: Container(
                             child: CircleAvatar(
                               radius: 36, // Image radius 36 diameeter 72
                               // here local image assets/images/avatar.png
-                              backgroundImage: const AssetImage('images/avatar.png'),
+                              backgroundImage:
+                                  const AssetImage('images/avatar.png'),
                             ),
                           ),
                         ),
@@ -242,7 +254,8 @@ class _MapScreenState extends State<ProfileScreenSer> {
                             Row(
                               children: [
                                 // here image from assets/images/coin.png
-                                Image.asset('images/coin.png', width: 21, height: 21),
+                                Image.asset('images/coin.png',
+                                    width: 21, height: 21),
                                 const SizedBox(width: 5.19),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 3.0),
@@ -263,10 +276,12 @@ class _MapScreenState extends State<ProfileScreenSer> {
                               width: 128,
                               height: 7.06,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(5)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
                                 child: LinearProgressIndicator(
                                   value: 0.7,
-                                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xff209FFF)),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Color(0xff209FFF)),
                                   backgroundColor: Color(0xff282C30),
                                 ),
                               ),
@@ -289,8 +304,10 @@ class _MapScreenState extends State<ProfileScreenSer> {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        Image.asset('images/chest_bg.png', width: 220.3, height: 220.3), // 120-108
-                        Image.asset('images/chest.png', width: 65.15, height: 59.45), // 108.98+11.32=120.3
+                        Image.asset('images/chest_bg.png',
+                            width: 220.3, height: 220.3), // 120-108
+                        Image.asset('images/chest.png',
+                            width: 65.15, height: 59.45), // 108.98+11.32=120.3
                         Padding(
                           padding: EdgeInsets.only(top: 140.0),
                           child: Text(
@@ -383,7 +400,9 @@ class DrawerButton extends StatelessWidget {
                     borderRadius: BorderRadius.circular(100),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/rating');
+                },
                 child: Text(
                   buttonText,
                   style: TextStyle(
