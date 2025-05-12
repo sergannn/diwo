@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/auth/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:email_validator/email_validator.dart';
-import 'widgets/animated_widgets.dart';
+import '../../widgets/animated_widgets.dart';
 import 'dart:async'; // Пакет для работы с таймером
 
 class ConfirmationCodeScreen extends StatefulWidget {

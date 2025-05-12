@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/sliders_screenAlpha.dart';
-import 'package:flutter_application_1/sliders_screenBeta.dart';
+import 'package:flutter_application_1/widgets/bottom_bar.dart';
+import 'package:flutter_application_1/widgets/sliders_screenAlpha.dart';
+import 'package:flutter_application_1/utils/auth/auth.dart';
 import 'package:flutter_application_1/widgets/animated_widgets.dart';
-import 'package:flutter_application_1/widgets/drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'widgets/drawer.dart' as myDrawer;
+import '/widgets/drawer.dart' as myDrawer;
+import 'package:percent_indicator/percent_indicator.dart';
+
+import '/widgets/coins_timer.dart';
 //import 'package:yandex_maps_mapkit/yandex_maps_mapkit.dart';
 
 void main() async {
@@ -27,30 +30,14 @@ class ProfileScreenSer extends StatefulWidget {
 }
 
 class _MapScreenState extends State<ProfileScreenSer> {
+  int _balance = 5060;
   @override
   Widget build(BuildContext context) {
+//    _balance = 10;
     return Scaffold(
-        bottomNavigationBar: Container(
-          color: Colors.transparent, // This makes the container transparent
-          child: Image.asset(
-            'assets/images/bottom_bar.png',
-            fit: BoxFit.cover,
-            color:
-                Colors.white.withOpacity(0.5), // Optional: adjust image opacity
-            colorBlendMode: BlendMode.modulate, // Optional: blending mode
-          ),
-        ),
-        /*BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.business), label: 'Business'),
-            BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
-          ],
-          currentIndex: 0,
-          selectedItemColor: Colors.amber[800],
-          onTap: (a) {},
-        ),*/
+        extendBody: true,
+        bottomNavigationBar: bottomBar(context),
+
         /*  appBar: AppBar(
           backgroundColor: Color(0xFF020E18),
           title: const Text(''),
@@ -70,7 +57,8 @@ class _MapScreenState extends State<ProfileScreenSer> {
         body: DefaultTextStyle(
             style: TextStyle(color: Colors.white),
             child: Container(
-                padding: EdgeInsets.only(top: 30),
+                padding: EdgeInsets.only(
+                    top: 30), //bottom: kBottomNavigationBarHeight * 2),
                 child: SingleChildScrollView(
                   child: Container(
                     padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
@@ -85,13 +73,18 @@ class _MapScreenState extends State<ProfileScreenSer> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               // Первый элемент
-                              CircleAvatar(
-                                backgroundColor: Color(0xFF162E3F),
-                                radius:
-                                    26, // размер 52 делится на 2 для радиуса
-                                child: Icon(Icons.arrow_back_ios_new,
-                                    color: Color(0xFF209FFF)),
-                              ),
+                              GestureDetector(
+                                  child: CircleAvatar(
+                                    backgroundColor: Color(0xFF162E3F),
+                                    radius:
+                                        26, // размер 52 делится на 2 для радиуса
+                                    child: Icon(Icons.arrow_back_ios_new,
+                                        color: Color(0xFF209FFF)),
+                                  ),
+                                  onTap: () {
+                                    // closeDrawer();
+                                    Navigator.pop(context);
+                                  }),
                               SizedBox(width: 17, height: 52),
                               // Второй элемент
                               SizedBox(width: 6),
@@ -139,6 +132,9 @@ class _MapScreenState extends State<ProfileScreenSer> {
                                     ),
                                   ),
                                   onTap: () {
+                                    Navigator.pop(context);
+                                    //       Navigator.pushReplacementNamed(
+                                    //            context, '/MapBoxExample');
 //   openDrawer();
                                   }),
                             ],
@@ -152,10 +148,76 @@ class _MapScreenState extends State<ProfileScreenSer> {
                         // SizedBox(height: 20),
                         _StatsRowDeepSeek(),
                         SizedBox(height: 40),
-                        _CoinsRow(),
-                        SizedBox(height: 10),
+                        /*  Container(
+                          width: 70,
+                          height: 70,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  colors: [
+                                    Colors.red,
+                                    Colors.blue.withOpacity(0.5)
+                                  ]),
+                              shape: BoxShape.circle),
+                          child: Center(
+                              child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.green),
+                            child: Center(
+                              child: Text(
+                                "230 Cal",
+                                style:
+                                    TextStyle(fontSize: 10, color: Colors.blue),
+                              ),
+                            ),
+                          )),
+                        ),
+                        SizedBox(
+                          width: 70,
+                          height: 70,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CircularProgressIndicator(
+                                // progress:
+                                value: 40, // 30%
+                                strokeWidth: 3,
+                                backgroundColor: Colors.grey.withOpacity(0.2),
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.red),
+                              ),
+                              Container(
+                                width: 50,
+                                height: 50,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.green,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "230 Cal",
+                                    style: TextStyle(
+                                        fontSize: 10, color: Colors.blue),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),*/
+                        // _PotentialCoinsIndicator(),
+                        /*  CircularPercentIndicator(
+                          radius: 60.0,
+                          lineWidth: 5.0,
+                          percent: 0.5,
+                          center: new Text("100%"),
+                          progressColor: Colors.green,
+                        ),*/
 
-                        _LargeProfileAvatar(),
+                        LargeProfileAvatar(
+                          balance: _balance,
+                        ),
                         SizedBox(height: 40),
                         Text(
                           "Моя коллекция",
@@ -173,59 +235,82 @@ class _MapScreenState extends State<ProfileScreenSer> {
   }
 }
 
-class _CoinsRow extends StatelessWidget {
+class _PotentialCoinsIndicator extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: double.infinity, // Take full available width
-        padding: EdgeInsets.symmetric(horizontal: 20), // Match parent padding
-        child: Row(
-          spacing: 10,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Image.asset('assets/images/coin.png', width: 33, height: 33),
-            _CoinsIndicators(),
-            Spacer(),
-            Container(
-                child: Text(
-              "5060",
-              style: TextStyle(
-                fontFamily: 'Urbanist',
-                fontWeight: FontWeight.w600,
-                fontSize: 44,
-                color: Color(0xFFEEC61E),
-              ),
-            )),
-          ],
-        ));
-  }
+  _PotentialCoinsIndicatorState createState() =>
+      _PotentialCoinsIndicatorState();
 }
 
-class _CoinsIndicators extends StatelessWidget {
+class _PotentialCoinsIndicatorState extends State<_PotentialCoinsIndicator> {
+  Timer? _timer;
+  Duration _duration = Duration(minutes: 5, seconds: 59); // Initial 5:50
+  bool _isRunning = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (!_isRunning) return;
+
+      setState(() {
+        if (_duration.inSeconds > 0) {
+          _duration = _duration - Duration(seconds: 1);
+        } else {
+          _timer?.cancel();
+        }
+      });
+    });
+  }
+
+  void _toggleTimer() {
+    setState(() {
+      _isRunning = !_isRunning;
+    });
+  }
+
+  double _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return duration.inSeconds as double;
+    //return '$minutes:$seconds';
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-            child: Text("Монеты",
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                  color: Colors.white,
-                ))),
-        SizedBox(height: 5),
-        Container(
-            child: Text("25 января 2025",
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: Colors.white.withOpacity(0.5)))),
-        //width: 10, height: 10, color: Colors.blue),
-      ],
-    );
+    // Convert 6 hours to seconds (max duration)
+    final maxDurationInSeconds = 60; // * 60 * 60; // 6 hours = 21600 seconds
+
+    // Calculate percentage (0.0 to 1.0)
+    var percent = _duration.inSeconds / maxDurationInSeconds;
+    print(percent);
+    // Ensure percentage stays within bounds
+    final clampedPercent = percent.clamp(0.0, 1.0);
+
+    return GestureDetector(
+        child: CircularPercentIndicator(
+          radius: 60.0,
+          lineWidth: 5.0,
+          percent: clampedPercent,
+          center: Text("${(clampedPercent * 100).toStringAsFixed(1)}%"),
+          progressColor: Colors.blue,
+        ),
+        onTap: () {
+          setState(() {
+            _duration = Duration(minutes: 5, seconds: 59); // Initial 5:50
+            percent = 0;
+          });
+        });
   }
 }
 
@@ -289,68 +374,40 @@ class _ProfileAvatarK extends StatelessWidget {
 class _ProfileInfoK extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Logist_8888",
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w600,
-            fontSize: 18,
-            color: Colors.white,
-          ),
-        ),
-        SizedBox(height: 5),
-        _FollowersInfo(),
-        SizedBox(height: 10),
-        _FriendAvatarsK(),
-      ],
-    );
-  }
-}
+    return FutureBuilder(
+      future: Future.wait([
+        StorageService.getUsername(),
+        StorageService.getPhone(),
+      ]),
+      builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator(); // Loading indicator
+        }
 
-class _BottomRow extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        // width: 500,
-        height: 100,
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.05),
-        child: Row(
-          spacing: 10,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        final username = snapshot.data?[0] ?? "Logist_8888"; // Default value
+        final phone = snapshot.data?[1] ?? ""; // Will be used in _FollowersInfo
+
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(children: [
-              CircleAvatar(
-                  radius: 30, // Общий размер круга
-                  backgroundColor: Color.fromRGBO(15, 34, 56, 1),
-                  //  foregroundImage: AssetImage('images/iconunderphone1.png'),
-                  backgroundImage: AssetImage('assets/images/logoK.png')),
-              Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      radius: 10,
-                      child: Center(
-                          child: Icon(
-                        size: 10,
-                        Icons.check,
-                        color: Colors.white,
-                      )),
-                      backgroundImage: AssetImage('assets/images/Star1.png'))),
-            ]),
-            _BottomRowIndicators(),
-
-            Spacer(),
-            ObmenButton()
-            // myDrawer.DrawerButton(buttonText: "обмен"),
+            Text(
+              username,
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 5),
+            _FollowersInfo(phone: phone),
+            SizedBox(height: 10),
+            _FriendAvatarsK(),
           ],
-        ));
+        );
+      },
+    );
   }
 }
 
@@ -413,6 +470,7 @@ Widget ObmenButton() {
     ]),
   );
 }
+
 /*
 class _FriendAvatars extends StatelessWidget {
   @override
@@ -549,14 +607,23 @@ class _ProfileInfo extends StatelessWidget {
     );
   }
 }*/
-
 class _FollowersInfo extends StatelessWidget {
+  final String phone;
+
+  const _FollowersInfo({required this.phone});
+
   @override
   Widget build(BuildContext context) {
+    // Format phone number if needed
+    String formattedPhone = phone.isNotEmpty
+        ? phone.replaceAllMapped(RegExp(r'(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})'),
+            (Match m) => '${m[1]} (${m[2]}) ${m[3]} ${m[4]} ${m[5]}')
+        : "Phone not available";
+
     return Row(
       children: [
         Text(
-          "7 (911) 787 98 78",
+          formattedPhone,
           style: TextStyle(
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.w500,
@@ -653,20 +720,6 @@ class _StatsRowDeepSeek extends StatelessWidget {
           _StatCardRight(width: 143),
         ],
       ),
-    );
-  }
-}
-
-class _StatsRow extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      spacing: 10,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        _StatCardLeft(width: 167),
-        _StatCardRight(width: 143),
-      ],
     );
   }
 }
@@ -872,6 +925,122 @@ class _CollectionRow extends StatelessWidget {
   }
 }
 
+class _CollectionRowIndicators extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          child: Text("Император",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: MediaQuery.of(context).size.width * 0.03,
+                fontWeight: FontWeight.w700,
+              )),
+        ),
+        SizedBox(height: 5),
+        Container(
+            child: Text("5 DiWo Art",
+                textAlign: TextAlign.right,
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width * 0.02,
+                )))
+
+        //width: 10, height: 10, color: Colors.blue),
+      ],
+    );
+  }
+}
+
+class _BottomRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        // width: 500,
+        height: 100,
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.05),
+        child: Row(
+          spacing: 10,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Stack(children: [
+              CircleAvatar(
+                  radius: 30, // Общий размер круга
+                  backgroundColor: Color.fromRGBO(15, 34, 56, 1),
+                  //  foregroundImage: AssetImage('images/iconunderphone1.png'),
+                  backgroundImage: AssetImage('assets/images/logoK.png')),
+              Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: 10,
+                      child: Center(
+                          child: Icon(
+                        size: 10,
+                        Icons.check,
+                        color: Colors.white,
+                      )),
+                      backgroundImage: AssetImage('assets/images/Star1.png'))),
+            ]),
+            _BottomRowIndicators(),
+
+            Spacer(),
+            ObmenButton()
+            // myDrawer.DrawerButton(buttonText: "обмен"),
+          ],
+        ));
+  }
+}
+
+class _BottomRowIndicators extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+            child: Text("DiWo Art",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  fontWeight: FontWeight.w700,
+                ))),
+        SizedBox(height: 5),
+        Container(
+            child: Text("Император",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: MediaQuery.of(context).size.width * 0.03,
+                  fontWeight: FontWeight.w700,
+                ))),
+        //width: 10, height: 10, color: Colors.blue),
+      ],
+    );
+  }
+}
+
+/*
+
+class _StatsRow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      spacing: 10,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        _StatCardLeft(width: 167),
+        _StatCardRight(width: 143),
+      ],
+    );
+  }
+}
+
 class _CollectionRowS extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -929,88 +1098,95 @@ class _CollectionRowS extends StatelessWidget {
     );
   }
 }
-
-class _CollectionRowIndicators extends StatelessWidget {
+class _LargeProfileAvatarOld extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          child: Text("Император",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: MediaQuery.of(context).size.width * 0.03,
-                fontWeight: FontWeight.w700,
-              )),
-        ),
-        SizedBox(height: 5),
-        Container(
-            child: Text("5 DiWo Art",
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.02,
-                )))
-
-        //width: 10, height: 10, color: Colors.blue),
-      ],
-    );
-  }
+  _LargeProfileAvatarOldState createState() => _LargeProfileAvatarOldState();
 }
 
-class _BottomRowIndicators extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-            child: Text("DiWo Art",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.width * 0.03,
-                  fontWeight: FontWeight.w700,
-                ))),
-        SizedBox(height: 5),
-        Container(
-            child: Text("Император",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.width * 0.03,
-                  fontWeight: FontWeight.w700,
-                ))),
-        //width: 10, height: 10, color: Colors.blue),
-      ],
-    );
-  }
-}
+class _LargeProfileAvatarOldState extends State<_LargeProfileAvatarOld> {
+  Timer? _timer;
+  Duration _duration = Duration(minutes: 5, seconds: 50); // Initial 5:50
+  bool _isRunning = true;
 
-class _LargeProfileAvatar extends StatelessWidget {
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (!_isRunning) return;
+
+      setState(() {
+        if (_duration.inSeconds > 0) {
+          _duration = _duration - Duration(seconds: 1);
+        } else {
+          _timer?.cancel();
+        }
+      });
+    });
+  }
+
+  void _toggleTimer() {
+    setState(() {
+      _isRunning = !_isRunning;
+    });
+  }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return '$minutes:$seconds';
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return GestureDetector(
+      onTap: _toggleTimer,
+      child: Center(
         child: Stack(
-      alignment: Alignment.center,
-      children: [
-        Image.asset('assets/images/chest_bg.png',
-            width: 220.3, height: 220.3), // 120-108
-        Image.asset('assets/images/chest.png',
-            width: 65.15, height: 59.45), // 108.98+11.32=120.3
-        Padding(
-          padding: EdgeInsets.only(top: 140.0),
-          child: Text(
-            '5:50',
-            style: TextStyle(
-              // Urbanist
-              fontSize: 16.98,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
+          alignment: Alignment.center,
+          children: [
+            CircularPercentIndicator(
+              radius: 60.0,
+              lineWidth: 5.0,
+              percent: _duration.inSeconds.toDouble() / 100, //.clamp(0.0, 1.0),
+              center: Text("${(_duration * 100).toString()}%"),
+              progressColor: Colors.red,
             ),
-          ),
+            Image.asset(
+              'assets/images/chest_bg.png',
+              width: 220.3,
+              height: 220.3,
+            ),
+            Image.asset(
+              'assets/images/chest.png',
+              width: 65.15,
+              height: 59.45,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 140.0),
+              child: Text(
+                _formatDuration(_duration),
+                style: TextStyle(
+                  fontSize: 16.98,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
-    ));
+      ),
+    );
   }
 }
+*/

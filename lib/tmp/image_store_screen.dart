@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/profile_screen.dart';
+import 'package:flutter_application_1/tmp/profile_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 class ImageStoreScreen extends StatefulWidget {
   const ImageStoreScreen({super.key});
 
@@ -82,7 +83,8 @@ class _ImageStoreScreenState extends State<ImageStoreScreen> {
                   const SizedBox(height: 24),
                   GridView.builder(
                     shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 1.2,
                       mainAxisSpacing: 16,

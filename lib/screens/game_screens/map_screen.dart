@@ -1,5 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/start_screens/start_screen.dart';
+import 'package:flutter_application_1/utils/auth/auth.dart';
+import 'package:flutter_application_1/widgets/drawer.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart' as mp;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart' as gl;
@@ -25,8 +29,20 @@ class LocationExampleState extends State<MapBoxLocationExample> {
   @override
   void dispose() {
     userPositionStream?.cancel();
-    mapboxMap?.dispose();
+    _disposeMapboxMap(); // Add this
+//    mapboxMap?.dispose();
     super.dispose();
+  }
+
+  Future<void> _disposeMapboxMap() async {
+    try {
+      mapboxMap?.dispose();
+    } catch (e) {
+      debugPrint('Error disposing map: $e');
+    } finally {
+      mapboxMap = null;
+      _isMapCreated = false;
+    }
   }
 
   void _onMapCreated(mp.MapboxMap mapboxMap) {
@@ -116,34 +132,75 @@ class LocationExampleState extends State<MapBoxLocationExample> {
     });
   }
 
+  Future<void> _goToCurrentLocation() async {
+    try {
+      final position = await gl.Geolocator.getCurrentPosition();
+
+      if (mapboxMap != null && mounted) {
+        mapboxMap?.flyTo(
+          mp.CameraOptions(
+            center: mp.Point(
+                coordinates:
+                    mp.Position(position.longitude, position.latitude)),
+            zoom: 15,
+            bearing: position.heading,
+          ),
+          mp.MapAnimationOptions(duration: 2000),
+        );
+
+        // Update location puck
+        mapboxMap?.location.updateSettings(
+          mp.LocationComponentSettings(
+            enabled: true,
+            pulsingEnabled: true,
+            puckBearingEnabled: true,
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Couldn't get location: ${e.toString()}")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_isMapCreated && mapboxMap == null) {
+        _initializeLocation();
+      }
+    });
     return Scaffold(
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            FloatingActionButton(
-              child: Icon(isLight ? Icons.light_mode : Icons.dark_mode),
-              heroTag: null,
-              onPressed: () {
-                setState(() => isLight = !isLight);
-                if (isLight) {
-                  mapboxMap?.loadStyleURI(mp.MapboxStyles.LIGHT);
-                } else {
-                  mapboxMap?.loadStyleURI(mp.MapboxStyles.DARK);
-                }
-              },
-            ),
-            SizedBox(height: 10),
-          ],
+      drawer: myDrawer(context),
+      floatingActionButton:
+          Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+        // Current Location Button
+        FloatingActionButton(
+          heroTag: 'location', // Unique tag required when multiple FABs
+          mini: true,
+          onPressed: _goToCurrentLocation,
+          child: Icon(Icons.my_location),
         ),
-      ),
+        SizedBox(height: 16),
+        FloatingActionButton(
+            onPressed: () async {
+              context.loaderOverlay.show();
+              await StorageService.logout();
+              context.loaderOverlay.hide();
+              Navigator.pushReplacementNamed(context, '/splash');
+              /*   Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const StartScreen()),
+              (route) => false, // Remove all routes
+            );*/
+            },
+            child: Text("выход"))
+      ]),
       body: Stack(children: [
         mp.MapWidget(
           styleUri: mp.MapboxStyles.DARK,
-          key: UniqueKey(),
+          //    key: UniqueKey(),
+          key: ValueKey(_isMapCreated),
           onMapCreated: _onMapCreated,
           cameraOptions: mp.CameraOptions(
             zoom: 15,

@@ -1,67 +1,63 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/rating_screen.dart';
-import 'package:flutter_application_1/widgets/animated_widgets.dart';
-import 'package:flutter_application_1/confirmationcode_screen.dart';
-import 'package:flutter_application_1/image_store_screen.dart';
-import 'package:flutter_application_1/login_screen.dart';
-import 'package:flutter_application_1/map_from_loto.dart';
-import 'package:flutter_application_1/map_screen.dart';
-import 'package:flutter_application_1/map_screen_ser.dart';
-import 'package:flutter_application_1/profile_screen.dart';
-import 'package:flutter_application_1/registration_screen.dart';
-import 'package:flutter_application_1/start_screen.dart';
+import 'package:flutter_application_1/screens/game_screens/rating_screen.dart';
+import 'package:flutter_application_1/screens/auth_screens/confirmationcode_screen.dart';
+import 'package:flutter_application_1/tmp/image_store_screen.dart';
+import 'package:flutter_application_1/screens/game_screens/login_screen.dart';
+import 'package:flutter_application_1/screens/game_screens/map_screen.dart';
+import 'package:flutter_application_1/screens/game_screens/profile_screen.dart';
+import 'package:flutter_application_1/tmp/profile_screen.dart';
+import 'package:flutter_application_1/screens/auth_screens/registration_screen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'splash_screen.dart'; /*
-import 'package:mappable_maps_mapkit/async.dart';
-import 'package:mappable_maps_mapkit/directions.dart';
-import 'package:mappable_maps_mapkit/image.dart';
-import 'package:mappable_maps_mapkit/init.dart';
-import 'package:mappable_maps_mapkit/mapkit.dart';
-import 'package:mappable_maps_mapkit/mapkit_factory.dart';
-import 'package:mappable_maps_mapkit/mappable_map.dart';
-import 'package:mappable_maps_mapkit/model.dart';
-import 'package:mappable_maps_mapkit/places.dart';
-import 'package:mappable_maps_mapkit/road_events_layer_style_provider.dart';
-import 'package:mappable_maps_mapkit/runtime.dart';
-import 'package:mappable_maps_mapkit/search.dart';
-import 'package:mappable_maps_mapkit/transport.dart';
-import 'package:mappable_maps_mapkit/ui_view.dart';
-import 'package:mappable_maps_mapkit/widgets.dart';*/
+import 'screens/start_screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final storage = FlutterSecureStorage();
+
+  var pass = await storage.read(key: 'pass');
+  var phone = await storage.read(key: 'phone');
+
 /*
   await init.initMapkit(
     apiKey: 'YOUR_API_KEY'
   );
 */
-
-  runApp(const MyApp());
+  final isLoggedIn = pass != null && phone != null;
+  debugPrint = (String? message, {int? wrapWidth}) {
+    if (message?.contains('updateAcquireFence') == false) {
+      debugPrintSynchronously(message!, wrapWidth: wrapWidth);
+    }
+  };
+  runApp(MyApp(isLoggedIn: isLoggedIn));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLoggedIn;
+  const MyApp({super.key, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
     return GlobalLoaderOverlay(
         child: MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Diwo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: const StartScreen(), //MapScreenS(),
+      home: isLoggedIn ? MapBoxLocationExample() : const SplashScreen(),
       routes: {
         '/splash': (context) => const SplashScreen(),
         '/registration': (context) => const RegistrationScreen(),
         '/profile': (context) => ProfileScreen(),
-        '/map': (context) => const MapScreen(),
+        // '/map': (context) => const MapScreen(),
         '/profileScreenSer': (context) => ProfileScreenSer(),
         '/MapBoxExample': (context) => MapBoxLocationExample(),
         '/login': (context) => const LoginScreen(),
         '/image_store': (context) => const ImageStoreScreen(),
-        '/animated_widgets': (context) => const MapScreen(),
+        // '/animated_widgets': (context) => const MapScreen(),
         '/confirmationcode': (context) => const ConfirmationCodeScreen(),
         '/rating': (context) => const RatingScreenSer(),
       },

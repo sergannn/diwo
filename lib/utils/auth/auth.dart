@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:teledart/teledart.dart';
 import 'package:teledart/telegram.dart';
@@ -9,6 +10,30 @@ class ScreenArguments {
   final String phone;
 
   ScreenArguments(this.username, this.phone);
+}
+
+class StorageService {
+  static final _storage = FlutterSecureStorage();
+  static Future<bool> isLoggedIn() async {
+    final pass = await _storage.read(key: 'pass');
+    final phone = await _storage.read(key: 'phone');
+    return pass != null && phone != null;
+  }
+
+  static Future<void> logout() async {
+    await _storage.delete(key: 'username');
+    await _storage.delete(key: 'phone');
+    await _storage.delete(key: 'pass');
+    // Add any other keys you need to clear
+  }
+
+  static Future<String?> getUsername() async {
+    return await _storage.read(key: 'username');
+  }
+
+  static Future<String?> getPhone() async {
+    return await _storage.read(key: 'phone');
+  }
 }
 
 class AuthRepository {

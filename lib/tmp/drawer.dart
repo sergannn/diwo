@@ -1,3 +1,4 @@
+/*
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/map_from_loto.dart';
@@ -284,4 +285,4 @@ class ImageCollection {
     required this.coinsPerHour,
     required this.imageUrl,
   });
-}
+}*/

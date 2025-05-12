@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/map_from_loto.dart';
-import 'package:flutter_application_1/map_screen.dart';
+import 'package:flutter_application_1/screens/game_screens/map_screen.dart';
 //import 'package:flutter_application_1/map_screen.dart';
-import 'package:flutter_application_1/map_screen_ser.dart';
+//import 'package:flutter_application_1/map_screen.dart';
+//import 'package:flutter_application_1/profile_screen_ser.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NeonBackButton extends StatelessWidget {
@@ -32,7 +32,8 @@ class NeonBackButton extends StatelessWidget {
             ),
           ),
           backgroundColor: WidgetStateProperty.all(Colors.transparent),
-          shadowColor: WidgetStateProperty.all(Colors.blue.shade200.withOpacity(0.5)),
+          shadowColor:
+              WidgetStateProperty.all(Colors.blue.shade200.withOpacity(0.5)),
           elevation: WidgetStateProperty.all(0),
         ),
       ),
@@ -130,14 +131,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(height: 8),
                   Row(
                     mainAxisSize: MainAxisSize.min,
-                    children: List.generate(3, (index) => const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4),
-                      child: Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                        size: 24,
-                      ),
-                    )),
+                    children: List.generate(
+                        3,
+                        (index) => const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4),
+                              child: Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                                size: 24,
+                              ),
+                            )),
                   ),
                 ],
               ),
@@ -229,7 +232,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         childAspectRatio: 1,
                         mainAxisSpacing: 8,
@@ -253,8 +257,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               NeonBackButton(
                 onPressed: () {
                   Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) =>  MapBoxLocationExample()),
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MapBoxLocationExample()),
                   );
                 },
               ),

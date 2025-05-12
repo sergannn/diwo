@@ -1,10 +1,6 @@
-import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/drawer.dart';
-import 'package:flutter_svg/svg.dart';
-import '../widgets/animated_widgets.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 //import 'package:yandex_maps_mapkit/yandex_maps_mapkit.dart';
 

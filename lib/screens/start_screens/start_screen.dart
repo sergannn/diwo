@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/splash_screen.dart';
-
+import 'package:flutter_application_1/utils/auth/auth.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({Key? key}) : super(key: key);
@@ -15,11 +14,12 @@ class _StartScreenState extends State<StartScreen> {
   void initState() {
     super.initState();
     // Устанавливаем таймер на 3 секунды
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 3), () async {
+      final isLoggedIn = await StorageService.isLoggedIn();
       // Переходим на следующий экран
-      Navigator.pushReplacement(
+      Navigator.pushReplacementNamed(
         context,
-        MaterialPageRoute(builder: (context) => SplashScreen()),
+        isLoggedIn ? '/MapBoxExample' : '/login',
       );
     });
   }
@@ -28,12 +28,13 @@ class _StartScreenState extends State<StartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-         color: Color(0xFF020E18), // Прямое использование цвета
+        color: Color(0xFF020E18), // Прямое использование цвета
         child: Center(
           child: Image.asset(
             'assets/images/1.png',
             width: MediaQuery.of(context).size.width * 0.8, // 40% ширины экрана
-            height: MediaQuery.of(context).size.width * 0.8, // Сохраняем квадратную форму
+            height: MediaQuery.of(context).size.width *
+                0.8, // Сохраняем квадратную форму
             fit: BoxFit.contain,
           ),
         ),

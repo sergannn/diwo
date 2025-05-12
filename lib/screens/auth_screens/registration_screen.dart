@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'widgets/animated_widgets.dart';
-import 'utils/auth/auth.dart';
+import '../../widgets/animated_widgets.dart';
+import '../../utils/auth/auth.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -196,7 +196,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
           decoration: InputDecoration(
             //   prefixStyle: TextStyle(color: Colors.white),
-            prefixText: '+7',
+            prefixIcon: Padding(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  '  +7',
+                  style: TextStyle(color: Colors.white),
+                )),
+            //   prefixText: '+7',
             hintText: ' 000 000 00 01',
             hintStyle: GoogleFonts.inter(
               fontSize: 16,
@@ -496,26 +502,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               _phoneController.text, _nicknameController.text, _randomNumber);
           context.loaderOverlay.hide();
 
-          var regRes = await AuthRepository().register(
-              email: _phoneController.text,
-              password: "12345",
-              username: _nicknameController.text);
-
-          if (!regRes) {
-            context.loaderOverlay.hide();
-            setState(() {
-              _isUserAvailable = false;
-              _isNickAvailable = false;
-            });
-            return;
-          } else {
-            Navigator.pushNamed(context, '/confirmationcode',
-                arguments: _phoneController.text +
-                    '/' +
-                    _nicknameController.text +
-                    "/" +
-                    _randomNumber.toString());
-          }
+          //  else {
+          Navigator.pushNamed(context, '/confirmationcode',
+              arguments: _phoneController.text +
+                  '/' +
+                  _nicknameController.text +
+                  "/" +
+                  _randomNumber.toString());
+          //   }
         },
         child: Text(
           'Зарегистрироваться',
