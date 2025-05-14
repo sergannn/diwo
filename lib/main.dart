@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/game_screens/collections_diwo_screen.dart';
 import 'package:flutter_application_1/screens/game_screens/rating_screen.dart';
 import 'package:flutter_application_1/screens/auth_screens/confirmationcode_screen.dart';
+import 'package:flutter_application_1/screens/game_screens/settings_screen.dart';
 import 'package:flutter_application_1/tmp/image_store_screen.dart';
 import 'package:flutter_application_1/screens/game_screens/login_screen.dart';
 import 'package:flutter_application_1/screens/game_screens/map_screen.dart';
@@ -60,6 +62,8 @@ class MyApp extends StatelessWidget {
         // '/animated_widgets': (context) => const MapScreen(),
         '/confirmationcode': (context) => const ConfirmationCodeScreen(),
         '/rating': (context) => const RatingScreenSer(),
+        '/settings': (context) => const SettingsScreenSer(),
+        '/collectionsD': (context) => const CollectionsDiwoScreen(),
       },
     ));
   }

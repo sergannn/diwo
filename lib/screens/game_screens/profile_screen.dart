@@ -227,7 +227,8 @@ class _MapScreenState extends State<ProfileScreenSer> {
                         SizedBox(height: 40),
                         _CollectionRow(),
                         SliderScreen(),
-                        _BottomRow()
+                        _BottomRow(),
+                        SizedBox(height: 120), //добавила отступ снизу так как кнопку и последний блок закрывает нижнее меню
                       ],
                     ),
                   ),
@@ -428,8 +429,8 @@ Widget ObmenButton() {
           const Color(0xFF014984),
         ],
       ),
-      border: Border.all(color: Color(0xFF11A8FD), width: 4),
-      borderRadius: BorderRadius.circular(25),
+      border: Border.all(color: Color(0xFF11A8FD), width: 2),
+      borderRadius: BorderRadius.circular(28.5),
       boxShadow: [
         BoxShadow(
           color: Color(0xFF11A8FD).withOpacity(0.5),
@@ -447,8 +448,8 @@ Widget ObmenButton() {
           shadowColor: Colors.transparent,
           padding: EdgeInsets.zero,
           minimumSize: Size(
-            150,
-            50,
+            100,
+            54,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
@@ -457,14 +458,12 @@ Widget ObmenButton() {
         onPressed: () {},
         child: Text(
           'Oбмен',
-          style: TextStyle(
-            fontFamily: 'Lato',
-            fontWeight: FontWeight.w500,
-            fontSize: 16,
-            height: 1.0,
-            letterSpacing: 0.0,
-            color: Colors.white,
-          ),
+           style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+                color: Colors.white,
+              ),
         ),
       )
     ]),
@@ -919,7 +918,7 @@ class _CollectionRow extends StatelessWidget {
             Container(
                 width: 10,
                 height: 18,
-                child: Image.asset('assets/images/arrowRight.png'))
+               child: Icon(Icons.arrow_forward_ios, color: Color(0xFF209FFF)))
           ]),
     );
   }
@@ -929,24 +928,26 @@ class _CollectionRowIndicators extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           child: Text("Император",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: MediaQuery.of(context).size.width * 0.03,
-                fontWeight: FontWeight.w700,
-              )),
+               style: GoogleFonts.montserrat(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600, // Semibold
+                                  color: Colors.white,
+                                ),),
         ),
         SizedBox(height: 5),
         Container(
             child: Text("5 DiWo Art",
                 textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.02,
-                )))
+               style: GoogleFonts.montserrat(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500, // Semibold
+                                  color: Colors.white,
+                                ),))
 
         //width: 10, height: 10, color: Colors.blue),
       ],
@@ -1006,24 +1007,26 @@ class _BottomRowIndicators extends StatelessWidget {
       children: [
         Container(
             child: Text("DiWo Art",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.width * 0.03,
-                  fontWeight: FontWeight.w700,
-                ))),
+                 style: TextStyle(
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w500,
+                fontSize: 12,
+                color: Colors.white,
+              ),)),
         SizedBox(height: 5),
         Container(
             child: Text("Император",
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.width * 0.03,
-                  fontWeight: FontWeight.w700,
-                ))),
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w600,
+                fontSize: 19,
+                color: Colors.white,
+              ),)),      
         //width: 10, height: 10, color: Colors.blue),
-      ],
+      ], 
     );
   }
-}
+} 
 
 /*
 

@@ -1,7 +1,9 @@
 //import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widgets/bottom_bar.dart';
 //import 'package:flutter_application_1/profile_screen_ser.dart';
 import 'package:flutter_application_1/widgets/drawer.dart';
+import 'package:google_fonts/google_fonts.dart';
 //import 'package:flutter_application_1/widgets/animated_widgets.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
@@ -17,6 +19,15 @@ void main() async {
 
   runApp(MaterialApp(home: SettingsScreenSer()));
 }
+// список иконок
+final List<IconData> icons = [
+  Icons.info_outline,           // FAQ
+  Icons.support_agent,          // Поддержка
+  Icons.policy,                 // Политика конф
+  Icons.logout,                 // Выход из профиля
+  Icons.delete_forever,         // Удалить аккаунт
+  Icons.settings,              // Пустая строка
+];
 
 class SettingsScreenSer extends StatefulWidget {
   const SettingsScreenSer({super.key});
@@ -27,69 +38,77 @@ class SettingsScreenSer extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreenSer> {
   @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: Image.asset(
-          'assets/images/bottom_bar.png',
-        ), //, fit: BoxFit.cover),
-        /*BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.business), label: 'Business'),
-            BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
-          ],
-          currentIndex: 0,
-          selectedItemColor: Colors.amber[800],
-          onTap: (a) {},
-        ),*/
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: const Text('AppBar with hamburger button'),
-          leading: Builder(
-            builder: (context) {
-              return IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              );
-            },
-          ),
-        ),
+        extendBody: true,
+        bottomNavigationBar: bottomBar(context),
         drawer: myDrawer(context),
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xFF020E18), //тут другой цвет фона
         body: DefaultTextStyle(
             style: TextStyle(color: Colors.white),
-            child: SingleChildScrollView(
-                child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                    child: Column(children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // Первый элемент
-                          Text("<"),
-                          SizedBox(width: 8, height: 52),
-
-                          // Второй элемент
-                          Text("Настройки"),
-
-                          // Гибкое пространство между вторым и третьим элементом
-                          Spacer(),
-                        ],
-                      ),
-                      SizedBox(height: 20),
+            child: Container(
+                padding: EdgeInsets.only(
+                    top: 30, bottom: kBottomNavigationBarHeight * 2),
+                child: SingleChildScrollView(
+                  padding:
+                            EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                    child: Container(
+                       
+                        child: Column(children: [
+                          SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                              child: Container(
+                                height: 64,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Первый элемент
+                                    GestureDetector(
+  onTap: () {
+    Navigator.pushNamed(context, '/profileScreenSer');
+  },
+  child: CircleAvatar(
+    backgroundColor: Color(0xFF162E3F),
+    radius: 26,
+    child: Icon(Icons.arrow_back_ios_new, color: Color(0xFF209FFF)),
+  ),
+),
+                                    SizedBox(width: 17, height: 52),
+                                    // Второй элемент
+                                    SizedBox(width: 6),
+                                    Text(
+                                      "Настройки",
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600, // Semibold
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    // Гибкое пространство между вторым и третьм элементом
+                                    Spacer(),
+                                    // Третий элемент (прижат вправо)
+                                  ],
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.pop(context);
+                              }),
+                          SizedBox(height: 20),
                       AnimatedContainer(
                           duration: Duration(seconds: 1),
                           width: MediaQuery.of(context).size.width,
-                          // height: 85,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 2, 14, 24),
-                            borderRadius: BorderRadius.circular(32),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  Color(0xFF000000),
+                  Color.fromARGB(255, 0, 51, 92)
+                ],
+              ),
+                            borderRadius: BorderRadius.circular(34),
                             border:
                                 Border.all(color: Color(0xFF11A8FD), width: 2),
                             boxShadow: [
@@ -100,43 +119,81 @@ class _SettingsScreenState extends State<SettingsScreenSer> {
                               ),
                             ],
                           ),
+                          child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.05,
+                vertical: MediaQuery.of(context).size.height * 0.02,
+              ),
                           child: Column(
                               spacing: 10,
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(5, (index) {
-                                var the_title;
-                                if (index == 0) {
-                                  the_title = "a";
-                                } else if (index == 1) {
-                                  the_title = "b";
-                                } else if (index == 2) {
-                                  the_title = "c";
-                                } else {
-                                  the_title = "другое";
-                                }
-                                return Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 0, horizontal: 20),
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      color: Colors.blue.withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(32),
-                                      /*   border: Border.all(
-                                          color: Color(0xFF11A8FD), width: 2),*/
-                                    ),
-                                    child: Row(
-                                        spacing: 10,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                  'https://placehold.co/80x80')),
-                                          Text(the_title),
-                                          Spacer(),
-                                          Text('>')
+                              children: List.generate(5, (index) { // Изменено с 6 на 5
+  var the_title;
+  if (index == 0) {
+    the_title = "FAQ";
+  } else if (index == 1) {
+    the_title = "Поддержка";
+  } else if (index == 2) {
+    the_title = "Политика конф";
+  } else if (index == 3) {
+    the_title = "Выход из профиля";
+  } else if (index == 4) {
+    the_title = "Удалить аккаунт";
+  }
+
+  return Container(
+    padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+    height: 60,
+    decoration: BoxDecoration(
+      color: Colors.blue.withOpacity(0.2),
+      borderRadius: BorderRadius.circular(32),
+
+    ),
+    child: Row(
+      spacing: 10,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        // Круг с иконкой и свечением
+        Container(
+          decoration: BoxDecoration(
+            color: Color(0xFF162E3F),
+            borderRadius: BorderRadius.circular(32),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0xFF209FFF).withOpacity(0.5),
+                spreadRadius: 3,
+                blurRadius: 10,
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Icon(
+              icons[index],
+               color: Colors.white,
+              size: 20,
+            ),
+          ),
+        ),
+        SizedBox(width: 1),
+        Text(
+          the_title,
+          style: GoogleFonts.montserrat(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+        Spacer(),
+
+                                          GestureDetector(
+  onTap: () {
+   
+  },
+    child: Icon(Icons.arrow_forward_ios, color: Color(0xFF209FFF)),
+),
                                         ]));
                               })))
-                    ])))));
+                   ) ]))))));
   }
 }

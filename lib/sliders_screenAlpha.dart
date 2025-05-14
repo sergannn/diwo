@@ -24,7 +24,7 @@ final List<Widget> imageSliders = imgList
                 'assets/images/slider1.png',
                 width: 135.98,
               ),
-              price: 'Beta test', //изменила вместо "2 000"
+               price: 'Beta test', //изменила вместо "2 000"
               profit: '100', //изменила вместо 60
             ),
           ],

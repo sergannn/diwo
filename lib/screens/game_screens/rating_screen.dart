@@ -28,6 +28,13 @@ class RatingScreenSer extends StatefulWidget {
   State<RatingScreenSer> createState() => _ProfileScreenState();
 }
 
+final Map<int, Color> ratingColors = {
+  //это я добавила, чтобы гибко настраивать цвета для фона самих строк с прозрачностями
+  1: Color.fromRGBO(0xFF, 0xD3, 0x44, 0.38),
+  2: Color.fromRGBO(0xB4, 0xB4, 0xB4, 0.38),
+  3: Color.fromRGBO(0x8D, 0x52, 0x29, 0.56),
+};
+
 class _ProfileScreenState extends State<RatingScreenSer> {
   @override
   Widget build(BuildContext context) {
@@ -35,7 +42,7 @@ class _ProfileScreenState extends State<RatingScreenSer> {
         extendBody: true,
         bottomNavigationBar: bottomBar(context),
         drawer: myDrawer(context),
-        backgroundColor: Colors.black,
+        backgroundColor: Color(0xFF020E18), //тут другой цвет фона
         body: DefaultTextStyle(
             style: TextStyle(color: Colors.white),
             child: Container(
@@ -56,12 +63,17 @@ class _ProfileScreenState extends State<RatingScreenSer> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     // Первый элемент
-                                    CircleAvatar(
-                                      backgroundColor: Color(0xFF162E3F),
-                                      radius:
-                                          26, // размер 52 делится на 2 для радиуса
-                                      child: Icon(Icons.arrow_back_ios_new,
-                                          color: Color(0xFF209FFF)),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, '/profileScreenSer');//возврат на профиль добавила надо поменять 
+                                      },
+                                      child: CircleAvatar(
+                                        backgroundColor: Color(0xFF162E3F),
+                                        radius: 26,
+                                        child: Icon(Icons.arrow_forward_ios,
+                                            color: Color(0xFF209FFF)),
+                                      ),
                                     ),
                                     SizedBox(width: 17, height: 52),
                                     // Второй элемент
@@ -89,10 +101,18 @@ class _ProfileScreenState extends State<RatingScreenSer> {
                               width: MediaQuery.of(context).size.width,
                               // height: 85,
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 2, 14, 24),
-                                borderRadius: BorderRadius.circular(32),
+                                // тут градиент для фона внутренней рамки
+                                gradient: LinearGradient(
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                  colors: [
+                                    Color(0xFF000000),
+                                    Color.fromARGB(255, 0, 51, 92)
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(34),
                                 border: Border.all(
-                                    color: Color(0xFF11A8FD), width: 2),
+                                    color: Color(0xFF11A8FD), width: 3.2),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Color(0xFF11A8FD).withOpacity(0.5),
@@ -101,79 +121,213 @@ class _ProfileScreenState extends State<RatingScreenSer> {
                                   ),
                                 ],
                               ),
-                              child: Column(
-                                  spacing: 10,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: List.generate(40, (index) {
-                                    var the_color;
-                                    if (index == 0) {
-                                      the_color = Colors.orangeAccent;
-                                    } else if (index == 1) {
-                                      the_color = Colors.brown;
-                                    } else if (index == 2) {
-                                      the_color = Colors.grey;
-                                    } else {
-                                      the_color = Colors.blue.withOpacity(0.2);
-                                    }
-                                    return Container(
-                                        // width: 500,
-                                        height: 53,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(23)),
-                                          color: Color.fromRGBO(1, 59, 92, 1),
-                                          //border: Border.all(color: Colors.blue),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.black.withOpacity(0.2),
-                                              spreadRadius: 2,
-                                              blurRadius: 4,
-                                            ),
-                                          ],
-                                        ),
-                                        padding: EdgeInsets.symmetric(
+                              child: Container(
+                                  //тут добавлен контейнер для отступов по краям с адаптивными паддингами
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          MediaQuery.of(context).size.width *
+                                              0.05,
+                                      vertical:
+                                          MediaQuery.of(context).size.height *
+                                              0.02),
+                                  child: Column(
+                                      spacing: 10,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: List.generate(40, (index) {
+                                        var position = index +
+                                            1; //это я добавила, чтобы отсчет начинался не с 0, а с 1
+                                        var the_color =
+                                            ratingColors[position] ??
+                                                Colors.blue.withOpacity(0.2);
+
+                                        return Container(
+                                          // тут цвета теней/свечений для первых трех строк (под индексами), последний без - это все начиная с 4 строки
+                                          height: 53,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(23.5)),
+                                            color: the_color,
+                                            border: position == 1
+                                                ? Border.all(
+                                                    color: Color.fromRGBO(
+                                                        0xD5, 0xAC, 0x37, 1.0),
+                                                    width: 2.0,
+                                                  )
+                                                : null,
+                                            boxShadow: position == 1
+                                                ? [
+                                                    BoxShadow(
+                                                      color: Color(0xFFFFD344)
+                                                          .withOpacity(0.3),
+                                                      spreadRadius: 8,
+                                                      blurRadius: 8,
+                                                      offset: Offset(0, 0),
+                                                    ),
+                                                  ]
+                                                : position == 2
+                                                    ? [
+                                                        BoxShadow(
+                                                          color: Color.fromRGBO(
+                                                              0xA6,
+                                                              0xA6,
+                                                              0xA6,
+                                                              0.3),
+                                                          spreadRadius: 8,
+                                                          blurRadius: 8,
+                                                          offset: Offset(0, 0),
+                                                        ),
+                                                      ]
+                                                    : position == 3
+                                                        ? [
+                                                            BoxShadow(),
+                                                          ]
+                                                        : [
+                                                            BoxShadow(
+                                                              color: Colors
+                                                                  .black
+                                                                  .withOpacity(
+                                                                      0.2),
+                                                              spreadRadius: 2,
+                                                              blurRadius: 4,
+                                                            ),
+                                                          ],
+                                          ),
+                                          padding: EdgeInsets.symmetric(
                                             horizontal: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.05),
-                                        child: Row(
+                                                0.02, // тут уменьшила паддинг, чтобы кружочки были ближе к левому краю ка в фигме
+                                          ),
+                                          child: Row(
                                             spacing: 10,
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              CircleAvatar(
-                                                backgroundColor: Color.fromRGBO(
-                                                    1, 27, 42, 1),
-                                                child: Text(index.toString(),
-                                                    style: TextStyle(
-                                                        color: Colors.white)),
-                                                radius: 20,
+                                              Stack(
+                                                children: [
+                                                  CircleAvatar(
+                                                    backgroundColor:
+                                                        position <= 3
+                                                            ? the_color
+                                                            : Color.fromRGBO(
+                                                                1, 27, 42, 1),
+                                                    child: Text(
+                                                        position.toString(),
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white)),
+                                                    radius: 20,
+                                                  ),
+                                                  // тут цвета обводки для кружочков (также для каждого индекса свой где первые три)
+                                                  Container(
+                                                    width: 40,
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: position <= 3
+                                                          ? Border.all(
+                                                              color: position ==
+                                                                      1
+                                                                  ? Color
+                                                                      .fromRGBO(
+                                                                          0xD5,
+                                                                          0xAC,
+                                                                          0x37,
+                                                                          1.0)
+                                                                  : position ==
+                                                                          2
+                                                                      ? Color.fromRGBO(
+                                                                          0xA6,
+                                                                          0xA6,
+                                                                          0xA6,
+                                                                          1.0)
+                                                                      : Color.fromRGBO(
+                                                                          0xC4,
+                                                                          0x7D,
+                                                                          0x40,
+                                                                          1.0),
+                                                              width: 2.0,
+                                                            )
+                                                          : Border.all(
+                                                              color: Color(
+                                                                  0xFF11A8FD), // Синяя обводка для 4+ строк
+                                                            ),
+                                                      boxShadow: position <=
+                                                                  3 &&
+                                                              position > 1
+                                                          ? [
+                                                              BoxShadow(
+                                                                color: position ==
+                                                                        2
+                                                                    ? Color.fromRGBO(
+                                                                        0xA6,
+                                                                        0xA6,
+                                                                        0xA6,
+                                                                        0.3)
+                                                                    : Color.fromRGBO(
+                                                                        0xC4,
+                                                                        0x7D,
+                                                                        0x40,
+                                                                        0.3),
+                                                                spreadRadius: 8,
+                                                                blurRadius: 8,
+                                                                offset: Offset(
+                                                                    0, 0),
+                                                              ),
+                                                            ]
+                                                          : [],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                               _RatingRowIndicators(),
                                               Spacer(),
-                                              CircleAvatar(
-                                                  radius: 12,
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  child: Image.asset(
-                                                    'assets/images/chest.png',
-                                                  )),
+                                              Stack(
+                                                children: [
+                                                  //тут добавила контейнер с тенью-свечением под сундучком
+                                                  Container(
+                                                    width: 24,
+                                                    height: 24,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Color(
+                                                                  0xFF11A8FD)
+                                                              .withOpacity(0.3),
+                                                          spreadRadius: 8,
+                                                          blurRadius: 12,
+                                                          offset: Offset(0, 0),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  CircleAvatar(
+                                                    radius: 16,
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    child: Image.asset(
+                                                        'assets/images/chest.png'),
+                                                  ),
+                                                ],
+                                              ),
                                               Container(
-                                                  child: Text(
-                                                "9 000",
-                                                style: GoogleFonts.montserrat(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight
-                                                      .w600, // Semibold
-                                                  color: Colors.white,
+                                                child: Text(
+                                                  "900",
+                                                  style: GoogleFonts.montserrat(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white,
+                                                  ),
                                                 ),
-                                              ))
-                                            ]));
-                                  })))
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }))))
                         ]))))));
   }
 }

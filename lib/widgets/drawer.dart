@@ -114,20 +114,28 @@ Widget myDrawer(context) {
                     )),
                 const SizedBox(height: 45.97),
                 DrawerButton(
-                    buttonText: 'Коллекции пазлов',
-                    image: 'assets/images/collectionpuzzles.png'),
-                const SizedBox(height: 28.61),
-                DrawerButton(
-                    buttonText: 'Коллекции DiWo',
-                    image: 'assets/images/collectionsdiwo.png'),
-                const SizedBox(height: 28.61),
-                DrawerButton(
-                    buttonText: 'Рейтинг DiWo',
-                    image: 'assets/images/rating.png'),
-                const SizedBox(height: 28.61),
-                DrawerButton(
-                    buttonText: 'Настройки',
-                    image: 'assets/images/settings.png'),
+  buttonText: 'Коллекции пазлов',
+  image: 'assets/images/collectionpuzzles.png',
+  routeName: '/collectionsD',
+),
+SizedBox(height: 28.61),
+               DrawerButton(
+  buttonText: 'Коллекции DiWo',
+  image: 'assets/images/collectionsdiwo.png',
+  routeName: '/collectionsD',
+),
+SizedBox(height: 28.61),
+DrawerButton(
+  buttonText: 'Рейтинг DiWo',
+  image: 'assets/images/rating.png',
+  routeName: '/rating',
+),
+SizedBox(height: 28.61),
+DrawerButton(
+  buttonText: 'Настройки',
+  image: 'assets/images/settings.png',
+  routeName: '/settings',
+),
                 Container(
                   width: double.infinity,
                   child: Stack(
@@ -172,11 +180,12 @@ class DrawerButton extends StatelessWidget {
     super.key,
     required this.buttonText,
     this.image = '',
+    required this.routeName, // Новый параметр для хранения имени маршрута
   });
 
   final String buttonText;
   final String image;
-
+  final String routeName; 
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -188,7 +197,7 @@ class DrawerButton extends StatelessWidget {
             behavior: HitTestBehavior.opaque,
             onTapDown: (details) {
               //  onPressed: () {
-              Navigator.pushNamed(context, '/rating');
+              Navigator.pushNamed(context, routeName);
               //  },
             },
             onTapUp: (details) {},
