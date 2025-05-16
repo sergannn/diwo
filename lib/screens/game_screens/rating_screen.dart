@@ -65,8 +65,9 @@ class _ProfileScreenState extends State<RatingScreenSer> {
                                     // Первый элемент
                                     GestureDetector(
                                       onTap: () {
-                                        Navigator.pushNamed(
-                                            context, '/profileScreenSer');//возврат на профиль добавила надо поменять 
+                                        Navigator.pop(context);
+//                                        Navigator.pushNamed(
+//                                            context, '/profileScreenSer');//возврат на профиль добавила надо поменять 
                                       },
                                       child: CircleAvatar(
                                         backgroundColor: Color(0xFF162E3F),

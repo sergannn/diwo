@@ -1,17 +1,20 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/auth_screens/login_screen_auth.dart';
 import 'package:flutter_application_1/screens/game_screens/collections_diwo_screen.dart';
 import 'package:flutter_application_1/screens/game_screens/rating_screen.dart';
 import 'package:flutter_application_1/screens/auth_screens/confirmationcode_screen.dart';
 import 'package:flutter_application_1/screens/game_screens/settings_screen.dart';
 import 'package:flutter_application_1/tmp/image_store_screen.dart';
-import 'package:flutter_application_1/screens/game_screens/login_screen.dart';
+import 'package:flutter_application_1/screens/auth_screens/login_screen.dart';
 import 'package:flutter_application_1/screens/game_screens/map_screen.dart';
 import 'package:flutter_application_1/screens/game_screens/profile_screen.dart';
 import 'package:flutter_application_1/tmp/profile_screen.dart';
 import 'package:flutter_application_1/screens/auth_screens/registration_screen.dart';
+import 'package:flutter_application_1/utils/timer/timer.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:provider/provider.dart';
 import 'screens/start_screens/splash_screen.dart';
 
 void main() async {
@@ -32,12 +35,20 @@ void main() async {
       debugPrintSynchronously(message!, wrapWidth: wrapWidth);
     }
   };
-  runApp(MyApp(isLoggedIn: isLoggedIn));
+  var theTimer= CountdownTimer(initialSeconds: 6 * 3600); // 6 hours
+  theTimer.startTimer();
+  runApp(
+     ChangeNotifierProvider(
+      create: (context) =>theTimer,
+      child:
+    MyApp(isLoggedIn: isLoggedIn,pass: pass,phone: phone,)));
 }
 
 class MyApp extends StatelessWidget {
   final bool isLoggedIn;
-  const MyApp({super.key, required this.isLoggedIn});
+  final String? phone;
+  final String? pass;
+  const MyApp({super.key, required this.isLoggedIn, this.pass,this.phone});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +60,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: isLoggedIn ? MapBoxLocationExample() : const SplashScreen(),
+
+      home: isLoggedIn ? LoginScreenAuth(pass:pass ?? '',phone:phone ?? '') 
+      : const SplashScreen(),
       routes: {
         '/splash': (context) => const SplashScreen(),
         '/registration': (context) => const RegistrationScreen(),
@@ -65,6 +78,12 @@ class MyApp extends StatelessWidget {
         '/settings': (context) => const SettingsScreenSer(),
         '/collectionsD': (context) => const CollectionsDiwoScreen(),
       },
+      onGenerateRoute: (settings) {
+
+
+
+      },
+      
     ));
   }
 }

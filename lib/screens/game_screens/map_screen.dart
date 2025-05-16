@@ -171,6 +171,19 @@ class LocationExampleState extends State<MapBoxLocationExample> {
       }
     });
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Color(0xFF020E18),
+          title: const Text(''),
+          leading: Builder(
+            builder: (context) {
+              return IconButton(
+                icon: const Icon(Icons.menu,color:Colors.white),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              );
+            },
+          )),
       drawer: myDrawer(context),
       floatingActionButton:
           Column(mainAxisAlignment: MainAxisAlignment.end, children: [

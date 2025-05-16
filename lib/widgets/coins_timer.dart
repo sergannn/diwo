@@ -1,15 +1,10 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/utils/timer/timer.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class LargeProfileAvatar extends StatefulWidget {
-//  final Function(int) onCollect;
-  int balance;
-
-  LargeProfileAvatar({
-//    required this.onCollect,
-    required this.balance,
+  const LargeProfileAvatar({
     Key? key,
   }) : super(key: key);
 
@@ -19,123 +14,34 @@ class LargeProfileAvatar extends StatefulWidget {
 
 class LargeProfileAvatarState extends State<LargeProfileAvatar>
     with WidgetsBindingObserver {
-  Timer? _timer;
-  Duration _duration = Duration(hours: 6);
-  double _earnedCoins = 0;
-  bool _isRunning = true;
-  final double _coinsPerHour = 100;
-  DateTime? _lastUpdateTime;
-
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addObserver(this);
-    _loadTimerState();
+//    final timer = Provider.of<CountdownTimer>(context, listen: false);
+//    timer.loadTimerState();
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
     WidgetsBinding.instance.removeObserver(this);
-    _saveTimerState();
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    final timer = Provider.of<CountdownTimer>(context, listen: false);
     if (state == AppLifecycleState.paused) {
-      _saveTimerState();
+      timer.saveTimerState();
     } else if (state == AppLifecycleState.resumed) {
-      _loadTimerState();
+//      timer.loadTimerState();
     }
-  }
-
-  Future<void> _loadTimerState() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedTime = prefs.getInt('lastUpdateTime');
-    final savedEarned = prefs.getDouble('earnedCoins');
-    final savedDuration = prefs.getInt('remainingDuration');
-
-    if (savedTime != null && savedDuration != null) {
-      final now = DateTime.now().millisecondsSinceEpoch;
-      final elapsedSeconds = (now - savedTime) ~/ 1000;
-      final remainingSeconds = savedDuration - elapsedSeconds;
-
-      setState(() {
-        if (remainingSeconds > 0) {
-          _duration = Duration(seconds: remainingSeconds);
-          _earnedCoins =
-              (savedEarned ?? 0) + (_coinsPerHour / 3600 * elapsedSeconds);
-        } else {
-          _duration = Duration.zero;
-          _earnedCoins = _coinsPerHour * 6;
-          _isRunning = false;
-        }
-      });
-    }
-
-    _startTimer();
-  }
-
-  Future<void> _saveTimerState() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('lastUpdateTime', DateTime.now().millisecondsSinceEpoch);
-    await prefs.setDouble('earnedCoins', _earnedCoins);
-    await prefs.setInt('remainingDuration', _duration.inSeconds);
-  }
-
-  void _startTimer() {
-    _timer?.cancel();
-    _timer = Timer.periodic(Duration(milliseconds: 1), (timer) {
-      if (!_isRunning) return;
-
-      setState(() {
-        if (_duration.inSeconds > 0) {
-          _duration = _duration - Duration(seconds: 1);
-          _earnedCoins += _coinsPerHour / 3600;
-          if (_earnedCoins > _coinsPerHour * 6) {
-            _earnedCoins = _coinsPerHour * 6;
-          }
-        } else {
-          _timer?.cancel();
-          _isRunning = false;
-          _earnedCoins = _coinsPerHour * 6;
-        }
-      });
-    });
-  }
-
-  void _collectCoins() {
-    final coinsToAdd = _earnedCoins.floor();
-    if (coinsToAdd > 0) {
-      onCollect(coinsToAdd);
-      setState(() {
-        _earnedCoins = 0;
-        _duration = Duration(hours: 6);
-        _isRunning = true;
-      });
-      _startTimer();
-      _saveTimerState();
-    }
-  }
-
-  void onCollect(int coins) {
-    setState(() {
-      widget.balance += coins;
-    });
-  }
-
-  String _formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final hours = twoDigits(duration.inHours);
-    final minutes = twoDigits(duration.inMinutes.remainder(60));
-    final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return '$hours:$minutes:$seconds';
   }
 
   @override
   Widget build(BuildContext context) {
-    final progress = 1 - (_duration.inSeconds / (6 * 3600));
+    final timer = Provider.of<CountdownTimer>(context);
 
     return Column(
       children: [
@@ -146,11 +52,10 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Image.asset('assets/images/coin.png', width: 33, height: 33),
-              // _CoinsIndicators(),
-              _CoinsIndicators(earnedCoins: _earnedCoins),
+              _CoinsIndicators(earnedCoins: timer.earnedCoins),
               Spacer(),
               Text(
-                widget.balance.toString(),
+                Provider.of<CountdownTimer>(context).balance.toString(),
                 style: TextStyle(
                   fontFamily: 'Urbanist',
                   fontWeight: FontWeight.w600,
@@ -163,7 +68,18 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
         ),
         SizedBox(height: 10),
         GestureDetector(
-          onTap: _collectCoins,
+          onTap: () {
+            final collected = timer.collectCoins();
+            if (collected > 0) {
+              timer.addToBalance(collected);
+            }
+            /*final collected = timer.collectCoins();
+            if (collected > 0) {
+              setState(() {
+                _balance += collected; // Update local balance
+              });
+            }*/
+          },
           child: Center(
             child: Stack(
               alignment: Alignment.center,
@@ -176,7 +92,7 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
                 CircularPercentIndicator(
                   radius: 60.0,
                   lineWidth: 5.0,
-                  percent: progress.clamp(0.0, 1.0),
+                  percent: timer.progress.clamp(0.0, 1.0),
                   center: Image.asset(
                     'assets/images/chest.png',
                     width: 65.15,
@@ -190,7 +106,7 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        _formatDuration(_duration),
+                        timer.formattedDuration,
                         style: TextStyle(
                           fontSize: 16.98,
                           fontWeight: FontWeight.w800,
@@ -208,6 +124,8 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
     );
   }
 }
+
+// _CoinsIndicators remains the same as in your original code
 
 class _CoinsIndicators extends StatelessWidget {
   final double earnedCoins; // Добавьте это
@@ -235,8 +153,8 @@ class _CoinsIndicators extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            Text(
-              "+${earnedCoins.toStringAsFixed(0)}", // Отображаем earnedCoins
+            Text(    Provider.of<CountdownTimer>(context).earnedCoins.toStringAsFixed(0),
+//              "+${earnedCoins.toStringAsFixed(0)}", // Отображаем earnedCoins
               style: TextStyle(
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.w600,

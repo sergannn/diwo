@@ -215,9 +215,7 @@ class _MapScreenState extends State<ProfileScreenSer> {
                           progressColor: Colors.green,
                         ),*/
 
-                        LargeProfileAvatar(
-                          balance: _balance,
-                        ),
+                        LargeProfileAvatar(),
                         SizedBox(height: 40),
                         Text(
                           "Моя коллекция",
@@ -306,7 +304,7 @@ class _PotentialCoinsIndicatorState extends State<_PotentialCoinsIndicator> {
           center: Text("${(clampedPercent * 100).toStringAsFixed(1)}%"),
           progressColor: Colors.blue,
         ),
-        onTap: () {
+        onTap: () { //нужно ли это? мне кажется, нет
           setState(() {
             _duration = Duration(minutes: 5, seconds: 59); // Initial 5:50
             percent = 0;

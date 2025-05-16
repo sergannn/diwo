@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/utils/timer/timer.dart';
+import 'package:provider/provider.dart';
 
 Widget myDrawer(context) {
   return Drawer(
@@ -80,23 +82,25 @@ Widget myDrawer(context) {
                                   const SizedBox(width: 5.19),
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 3.0),
-                                    child: Text(
-                                      '5 060',
+                                    child: 
+                                     Consumer<CountdownTimer>(
+                  builder: (context, timer, child) {
+                    return Text(timer.balance.toString(),
                                       style: TextStyle(
                                         // Roboto
                                         fontSize: 13.37,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
-                                      ),
+                                      ));},
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 8.0),
+                               SizedBox(height: 8.0),
                               Container(
                                 width: 128,
                                 height: 7.06,
-                                child: ClipRRect(
+                                child: const ClipRRect(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5)),
                                   child: LinearProgressIndicator(
@@ -113,29 +117,63 @@ Widget myDrawer(context) {
                       ),
                     )),
                 const SizedBox(height: 45.97),
-                DrawerButton(
-  buttonText: 'Коллекции пазлов',
-  image: 'assets/images/collectionpuzzles.png',
-  routeName: '/collectionsD',
-),
-SizedBox(height: 28.61),
-               DrawerButton(
-  buttonText: 'Коллекции DiWo',
-  image: 'assets/images/collectionsdiwo.png',
-  routeName: '/collectionsD',
-),
-SizedBox(height: 28.61),
-DrawerButton(
-  buttonText: 'Рейтинг DiWo',
-  image: 'assets/images/rating.png',
-  routeName: '/rating',
-),
-SizedBox(height: 28.61),
-DrawerButton(
-  buttonText: 'Настройки',
-  image: 'assets/images/settings.png',
-  routeName: '/settings',
-),
+                const DrawerButton(
+                  buttonText: 'Коллекции пазлов',
+                  image: 'assets/images/collectionpuzzles.png',
+                  routeName: '/collectionsD',
+                ),
+                SizedBox(height: 28.61),
+                const DrawerButton(
+                  buttonText: 'Коллекции DiWo',
+                  image: 'assets/images/collectionsdiwo.png',
+                  routeName: '/collectionsD',
+                ),
+                SizedBox(height: 28.61),
+                const DrawerButton(
+                  buttonText: 'Рейтинг DiWo',
+                  image: 'assets/images/rating.png',
+                  routeName: '/rating',
+                ),
+                SizedBox(height: 28.61),
+                const DrawerButton(
+                  buttonText: 'Настройки',
+                  image: 'assets/images/settings.png',
+                  routeName: '/settings',
+                ),
+             /*   Consumer<CountdownTimer>(
+                  builder: (context, timer, child) {
+                    return Column(
+                      children: [
+                        Text('${timer.remainingSeconds} сек',style:TextStyle(color:Colors.white)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: timer.isRunning
+                                  ? timer.stopTimer
+                                  : timer.startTimer,
+                              icon: Icon(timer.isRunning
+                                  ? Icons.pause
+                                  : Icons.play_arrow),
+                            ),
+                            IconButton(
+                              onPressed: timer.resetTimer,
+                              icon: const Icon(Icons.replay),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),*/
+                     Consumer<CountdownTimer>(
+                  builder: (context, timer, child) {
+                    return GestureDetector(onTap: () { 
+                   final collected = timer.collectCoins();
+            if (collected > 0) {
+              timer.addToBalance(collected);
+            }
+                    },child:
                 Container(
                   width: double.infinity,
                   child: Stack(
@@ -145,33 +183,29 @@ DrawerButton(
                           width: 220.3, height: 220.3), // 120-108
                       Image.asset('assets/images/box.png',
                           width: 65.15, height: 59.45), // 108.98+11.32=120.3
+
+                     
                       Padding(
                         padding: EdgeInsets.only(top: 150.0),
                         child: Text(
-                          '5:50',
+                            timer.formattedDuration,
                           style: TextStyle(
                             // Urbanist
                             fontSize: 16.98,
                             fontWeight: FontWeight.w800,
                             color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      // CircleAvatar(
-                      //   radius: 52, // Image diameeter 108.98 radius 54.49
-                      //   // radius: 24.49, // Image diameeter 108.98 radius 54.49
-                      //   // here local image assets/images/avatar.png
-                      //   backgroundImage: const AssetImage('images/chest.png'),
-                      // ),
+                        )),
+                        )]))); }                      ),
+             
                     ],
                   ),
                 ),
-              ],
+              
             ),
           ),
         ),
-      ),
-    ),
+      
+    
   );
 }
 
@@ -185,7 +219,7 @@ class DrawerButton extends StatelessWidget {
 
   final String buttonText;
   final String image;
-  final String routeName; 
+  final String routeName;
   @override
   Widget build(BuildContext context) {
     return Container(
