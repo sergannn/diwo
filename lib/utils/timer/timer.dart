@@ -9,13 +9,27 @@ class CountdownTimer extends ChangeNotifier {
   bool _isRunning = false;
   double _earnedCoins = 0;
   final double _coinsPerHour = 100;
-  DateTime? _lastUpdateTime;
+  DateTime? _lastStartTime;
   int _balance = 0;
-  
+
   int get balance => _balance;
+  
   CountdownTimer({required int initialSeconds})
       : _remainingSeconds = initialSeconds,
-        _initialSeconds = initialSeconds;
+        _initialSeconds = initialSeconds {
+    _initTimer();
+  }
+
+  Future<void> _initTimer() async {
+    await _loadTimerState();
+    _startBackgroundTimer();
+  }
+
+  // Добавляем метод addToBalance обратно
+  void addToBalance(int amount) {
+    _balance += amount;
+    notifyListeners();
+  }
 
   int get remainingSeconds => _remainingSeconds;
   bool get isRunning => _isRunning;
@@ -25,11 +39,6 @@ class CountdownTimer extends ChangeNotifier {
   Duration get duration => Duration(seconds: _remainingSeconds);
   double get progress => 1 - (_remainingSeconds / _initialSeconds);
 
-  void addToBalance(int amount) {
-    _balance += amount;
-    notifyListeners();
-  }
-
   String get formattedDuration {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final hours = twoDigits(duration.inHours);
@@ -38,88 +47,99 @@ class CountdownTimer extends ChangeNotifier {
     return '$hours:$minutes:$seconds';
   }
 
-  // Modify your loadTimerState to properly handle resuming
-  Future<void> loadTimerState() async {
+  Future<void> _loadTimerState() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedTime = prefs.getInt('lastUpdateTime');
-    final savedEarned = prefs.getDouble('earnedCoins');
-    final savedDuration = prefs.getInt('remainingDuration');
+    _balance = prefs.getInt('balance') ?? 0;
+    final startTime = prefs.getInt('startTime');
+    final initialDuration = prefs.getInt('initialDuration') ?? _initialSeconds;
+    final savedEarned = prefs.getDouble('earnedCoins') ?? 0;
 
-    if (savedTime != null && savedDuration != null) {
+    if (startTime != null) {
       final now = DateTime.now().millisecondsSinceEpoch;
-      final elapsedSeconds = (now - savedTime) ~/ 1000;
-      final remainingSeconds = savedDuration - elapsedSeconds;
+      final elapsedSeconds = (now - startTime) ~/ 1000;
+      _remainingSeconds = initialDuration - elapsedSeconds;
+      _earnedCoins = savedEarned + (_coinsPerHour / 3600 * elapsedSeconds);
 
-      if (remainingSeconds > 0) {
-        _remainingSeconds = remainingSeconds;
-        _earnedCoins = (savedEarned ?? 0) + (_coinsPerHour / 3600 * elapsedSeconds);
-        startTimer(); // Ensure timer keeps running
-      } else {
+      if (_remainingSeconds <= 0) {
         _remainingSeconds = 0;
         _earnedCoins = _coinsPerHour * (_initialSeconds / 3600);
         _isRunning = false;
+        await prefs.remove('startTime');
+      } else {
+        _isRunning = true;
+        _lastStartTime = DateTime.fromMillisecondsSinceEpoch(startTime);
       }
-      notifyListeners();
-    } else {
-      // First run or no saved state
-      startTimer();
     }
+    notifyListeners();
   }
 
   Future<void> saveTimerState() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('lastUpdateTime', DateTime.now().millisecondsSinceEpoch);
+    await prefs.setInt('balance', _balance);
+    
+    if (_isRunning && _lastStartTime != null) {
+      await prefs.setInt('startTime', _lastStartTime!.millisecondsSinceEpoch);
+      await prefs.setInt('initialDuration', _initialSeconds);
+    } else {
+      await prefs.remove('startTime');
+    }
     await prefs.setDouble('earnedCoins', _earnedCoins);
-    await prefs.setInt('remainingDuration', _remainingSeconds);
+  }
+
+  void _startBackgroundTimer() {
+    if (_isRunning) {
+      _timer?.cancel();
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (_remainingSeconds > 0) {
+          _remainingSeconds--;
+          _earnedCoins += _coinsPerHour / 3600;
+          if (_earnedCoins > _coinsPerHour * (_initialSeconds / 3600)) {
+            _earnedCoins = _coinsPerHour * (_initialSeconds / 3600);
+          }
+          notifyListeners();
+        } else {
+          _stopTimer();
+          _earnedCoins = _coinsPerHour * (_initialSeconds / 3600);
+          notifyListeners();
+        }
+      });
+    }
   }
 
   void startTimer() {
     if (_isRunning) return;
 
+    _lastStartTime = DateTime.now();
     _isRunning = true;
-    _timer = Timer.periodic(const Duration(milliseconds: 1), (timer) {
-      if (_remainingSeconds > 0) {
-        _remainingSeconds--;
-        _earnedCoins += _coinsPerHour / 3600;
-        if (_earnedCoins > _coinsPerHour * (_initialSeconds / 3600)) {
-          _earnedCoins = _coinsPerHour * (_initialSeconds / 3600);
-        }
-        notifyListeners();
-      } else {
-        stopTimer();
-        _earnedCoins = _coinsPerHour * (_initialSeconds / 3600);
-        notifyListeners();
-      }
-    });
+    saveTimerState();
+    _startBackgroundTimer();
+    notifyListeners();
+  }
+
+  void _stopTimer() {
+    _timer?.cancel();
+    _isRunning = false;
+    saveTimerState();
   }
 
   void stopTimer() {
-    _timer?.cancel();
-    _isRunning = false;
+    _stopTimer();
     notifyListeners();
   }
 
   void resetTimer() {
-    _timer?.cancel();
+    _stopTimer();
     _remainingSeconds = _initialSeconds;
     _earnedCoins = 0;
-    _isRunning = false;
+    saveTimerState();
     notifyListeners();
   }
 
   int collectCoins() {
     final coinsToAdd = _earnedCoins.floor();
-    if (coinsToAdd > 0) {
-      _earnedCoins = 0;
-    //  _remainingSeconds = _initialSeconds;
-      _isRunning = true;
-   //   startTimer();
-   //   saveTimerState();
-      notifyListeners();
-    }
-    else { print("empty");
+    addToBalance(coinsToAdd); // Используем addToBalance для добавления монет
     resetTimer();
-    startTimer();}
+    startTimer();
     return coinsToAdd;
   }
 
