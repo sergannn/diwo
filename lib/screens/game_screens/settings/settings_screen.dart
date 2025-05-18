@@ -1,8 +1,8 @@
 //import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/widgets/bottom_bar.dart';
+import 'package:flutter_application_1/screens/main_widgets/bottom_bar.dart';
 //import 'package:flutter_application_1/profile_screen_ser.dart';
-import 'package:flutter_application_1/widgets/drawer.dart';
+import 'package:flutter_application_1/screens/main_widgets/drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 //import 'package:flutter_application_1/widgets/animated_widgets.dart';
 //import 'package:google_fonts/google_fonts.dart';
@@ -48,8 +48,7 @@ class _SettingsScreenState extends State<SettingsScreenSer> {
         body: DefaultTextStyle(
             style: TextStyle(color: Colors.white),
             child: Container(
-                padding: EdgeInsets.only(
-                    top: 30),
+                padding: EdgeInsets.only(top: 30),
                 child: SingleChildScrollView(
                     padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                     child: Container(
@@ -66,7 +65,8 @@ class _SettingsScreenState extends State<SettingsScreenSer> {
                                 // Первый элемент
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.pop(context);/* pushNamed(
+                                    Navigator.pop(
+                                        context); /* pushNamed(
                                         context, '/profileScreenSer');*/
                                   },
                                   child: CircleAvatar(
