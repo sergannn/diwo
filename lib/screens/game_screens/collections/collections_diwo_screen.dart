@@ -3,7 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/game_screens/profile/profile_screen.dart';
-import 'package:flutter_application_1/screens/game_screens/profile/widgets/sliders_screenAlpha.dart';
+import 'package:flutter_application_1/screens/game_screens/profile/widgets/sliders_screen.dart';
 
 import 'package:flutter_application_1/screens/main_widgets/bottom_bar.dart';
 import 'package:flutter_application_1/screens/main_widgets/drawer.dart';

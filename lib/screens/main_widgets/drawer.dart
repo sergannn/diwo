@@ -309,22 +309,7 @@ class DrawerButton extends StatelessWidget {
                           ),
                         )),
                 SizedBox(width: 15),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0,
-                    shadowColor: Colors.transparent,
-                    padding: EdgeInsets.zero,
-                    /*  minimumSize: Size(
-                      150,
-                      50,
-                    ),*/
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: Text(
+              Text(
                     buttonText,
                     textAlign: TextAlign.start,
                     style: TextStyle(
@@ -335,7 +320,7 @@ class DrawerButton extends StatelessWidget {
                       letterSpacing: 0.0,
                       color: Colors.white,
                     ),
-                  ),
+                  
                 )
               ]),
             ),

@@ -34,7 +34,7 @@ void main() async {
       debugPrintSynchronously(message!, wrapWidth: wrapWidth);
     }
   };
-  var theTimer = CountdownTimer(initialSeconds: 6 * 3600); // 6 hours
+  var theTimer = CountdownTimer();//initialSeconds: 6 * 3600); // 6 hours
   theTimer.startTimer();
   runApp(ChangeNotifierProvider(
       create: (context) => theTimer,

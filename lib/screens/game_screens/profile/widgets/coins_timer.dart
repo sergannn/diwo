@@ -35,7 +35,8 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
     if (state == AppLifecycleState.paused) {
       timer.saveTimerState();
     } else if (state == AppLifecycleState.resumed) {
-//      timer.loadTimerState();
+      // если свернул
+      timer.loadTimerState();
     }
   }
 
@@ -67,6 +68,7 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
           ),
         ),
         SizedBox(height: 10),
+           Text(timer.getCoinProgress.toString()),
         GestureDetector(
           onTap: () {
             final collected = timer.collectCoins();
@@ -88,6 +90,14 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
                   'assets/images/chest_bg.png',
                   width: 220.3,
                   height: 220.3,
+                ),
+             
+                 CircularPercentIndicator(
+                  radius: 60.0+10,
+                  lineWidth: 2.0,
+                  percent: timer.getCoinProgress*100/36/100,
+               
+                  progressColor: Colors.red,
                 ),
                 CircularPercentIndicator(
                   radius: 60.0,
@@ -155,8 +165,8 @@ class _CoinsIndicators extends StatelessWidget {
             ),
             Text(
               Provider.of<CountdownTimer>(context)
-                  .earnedCoins
-                  .toStringAsFixed(0),
+                  .earnedCoins.toStringAsFixed(0)
+                  ,
 //              "+${earnedCoins.toStringAsFixed(0)}", // Отображаем earnedCoins
               style: TextStyle(
                 fontFamily: 'Montserrat',

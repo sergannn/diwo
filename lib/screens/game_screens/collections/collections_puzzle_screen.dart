@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/main_widgets/bottom_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,39 +28,88 @@ class CollectionsPuzzleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Image.asset('assets/images/bottom_bar.png'),
-      appBar: AppBar(title: const Text('AppBar with hamburger button')),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(16.0),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          crossAxisSpacing: 16.0,
-          mainAxisSpacing: 16.0,
-          childAspectRatio: 0.75,
+      extendBody: true,
+      backgroundColor: Color(0xFF020E18),
+        bottomNavigationBar: bottomBar(context),
+      body: DefaultTextStyle(
+        style: TextStyle(color: Colors.white),
+        child: Container(
+          padding: EdgeInsets.only(top: 30),
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+            child: Column(children: [
+              // Top row with title
+              SizedBox(height: 10),
+              Container(
+                height: 64,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Back button
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: CircleAvatar(
+                        backgroundColor: Color(0xFF162E3F),
+                        radius: 26,
+                        child: Icon(Icons.arrow_back_ios_new,
+                            color: Color(0xFF209FFF)),
+                      ),
+                    ),
+                    SizedBox(width: 17, height: 52),
+                    // Title
+                    SizedBox(width: 6),
+                    Text(
+                      "Коллекции DiWo Арт",
+                      style: GoogleFonts.montserrat(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+              // GridView with shrinkWrap
+              GridView.builder(
+                shrinkWrap: true, // Add this
+                physics: NeverScrollableScrollPhysics(), // Add this
+                padding: const EdgeInsets.all(16.0),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                  childAspectRatio: 0.75,
+                ),
+                itemCount: 31,
+                itemBuilder: (context, index) {
+                  final dayNumber = index + 1;
+                  final imageNumber = (dayNumber - 1) % 8 + 1;
+                  return PuzzleCard(
+                    number: dayNumber,
+                    imagePath: 'assets/images/puzzle.png',
+                  );
+                },
+              ),
+            ]),
+          ),
         ),
-        itemCount: 31,
-        itemBuilder: (context, index) {
-          final dayNumber = index + 1;
-          final imageNumber = (dayNumber - 1) % 8 + 1;
-          return Card(
-            Number: dayNumber,
-//            ImagePath: 'assets/images/day_$imageNumber.jpg',
-            ImagePath: 'assets/images/puzzle.png',
-          );
-        },
       ),
     );
   }
 }
 
-class Card extends StatelessWidget {
-  final int Number;
-  final String ImagePath;
+class PuzzleCard extends StatelessWidget {
+  final int number;
+  final String imagePath;
 
-  const Card({
+  const PuzzleCard({
     Key? key,
-    required this.Number,
-    required this.ImagePath,
+    required this.number,
+    required this.imagePath,
   }) : super(key: key);
 
   @override
@@ -75,8 +126,8 @@ class Card extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(ImagePath),
-                  fit: BoxFit.cover,
+                  image: AssetImage(imagePath),
+                  fit: BoxFit.contain,
                 ),
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(12.0),
@@ -93,7 +144,7 @@ class Card extends StatelessWidget {
                   backgroundColor: Colors.blue,
                   radius: 16,
                   child: Text(
-                    Number.toString(),
+                    number.toString(),
                     style: const TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ),
