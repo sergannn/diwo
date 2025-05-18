@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import '../../widgets/animated_widgets.dart';
+import '../game_screens/profile/widgets/animated_widgets.dart';
 import '../../utils/auth/auth.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
