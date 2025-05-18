@@ -5,11 +5,9 @@ import 'package:flutter_application_1/screens/game_screens/collections_diwo_scre
 import 'package:flutter_application_1/screens/game_screens/rating_screen.dart';
 import 'package:flutter_application_1/screens/auth_screens/confirmationcode_screen.dart';
 import 'package:flutter_application_1/screens/game_screens/settings_screen.dart';
-import 'package:flutter_application_1/tmp/image_store_screen.dart';
 import 'package:flutter_application_1/screens/auth_screens/login_screen.dart';
 import 'package:flutter_application_1/screens/game_screens/map_screen.dart';
 import 'package:flutter_application_1/screens/game_screens/profile_screen.dart';
-import 'package:flutter_application_1/tmp/profile_screen.dart';
 import 'package:flutter_application_1/screens/auth_screens/registration_screen.dart';
 import 'package:flutter_application_1/utils/timer/timer.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -66,12 +64,12 @@ class MyApp extends StatelessWidget {
       routes: {
         '/splash': (context) => const SplashScreen(),
         '/registration': (context) => const RegistrationScreen(),
-        '/profile': (context) => ProfileScreen(),
+        //'/profile': (context) => ProfileScreen(),
         // '/map': (context) => const MapScreen(),
         '/profileScreenSer': (context) => ProfileScreenSer(),
         '/MapBoxExample': (context) => MapBoxLocationExample(),
         '/login': (context) => const LoginScreen(),
-        '/image_store': (context) => const ImageStoreScreen(),
+        //'/image_store': (context) => const ImageStoreScreen(),
         // '/animated_widgets': (context) => const MapScreen(),
         '/confirmationcode': (context) => const ConfirmationCodeScreen(),
         '/rating': (context) => const RatingScreenSer(),
