@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_application_1/profile_screen_ser.dart';
 import 'package:flutter_application_1/utils/faker.dart';
-import 'package:flutter_application_1/widgets/bottom_bar.dart';
-import 'package:flutter_application_1/widgets/drawer.dart';
+import 'package:flutter_application_1/screens/main_widgets/bottom_bar.dart';
+import 'package:flutter_application_1/screens/main_widgets/drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
 //import 'package:flutter_application_1/widgets/animated_widgets.dart';
 //import 'package:google_fonts/google_fonts.dart';
@@ -67,7 +67,7 @@ class _ProfileScreenState extends State<RatingScreenSer> {
                                       onTap: () {
                                         Navigator.pop(context);
 //                                        Navigator.pushNamed(
-//                                            context, '/profileScreenSer');//возврат на профиль добавила надо поменять 
+//                                            context, '/profileScreenSer');//возврат на профиль добавила надо поменять
                                       },
                                       child: CircleAvatar(
                                         backgroundColor: Color(0xFF162E3F),

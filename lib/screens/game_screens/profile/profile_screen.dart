@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/widgets/bottom_bar.dart';
-import 'package:flutter_application_1/widgets/sliders_screenAlpha.dart';
+import 'package:flutter_application_1/screens/main_widgets/bottom_bar.dart';
+import 'package:flutter_application_1/screens/game_screens/profile/widgets/sliders_screenAlpha.dart';
 import 'package:flutter_application_1/utils/auth/auth.dart';
-import 'package:flutter_application_1/widgets/animated_widgets.dart';
+import 'package:flutter_application_1/screens/game_screens/profile/widgets/animated_widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '/widgets/drawer.dart' as myDrawer;
+import '../../main_widgets/drawer.dart' as myDrawer;
 import 'package:percent_indicator/percent_indicator.dart';
 
-import '/widgets/coins_timer.dart';
+import 'widgets/coins_timer.dart';
 //import 'package:yandex_maps_mapkit/yandex_maps_mapkit.dart';
 
 void main() async {
@@ -148,72 +148,6 @@ class _MapScreenState extends State<ProfileScreenSer> {
                         // SizedBox(height: 20),
                         _StatsRowDeepSeek(),
                         SizedBox(height: 40),
-                        /*  Container(
-                          width: 70,
-                          height: 70,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  colors: [
-                                    Colors.red,
-                                    Colors.blue.withOpacity(0.5)
-                                  ]),
-                              shape: BoxShape.circle),
-                          child: Center(
-                              child: Container(
-                            width: 50,
-                            height: 50,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.green),
-                            child: Center(
-                              child: Text(
-                                "230 Cal",
-                                style:
-                                    TextStyle(fontSize: 10, color: Colors.blue),
-                              ),
-                            ),
-                          )),
-                        ),
-                        SizedBox(
-                          width: 70,
-                          height: 70,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              CircularProgressIndicator(
-                                // progress:
-                                value: 40, // 30%
-                                strokeWidth: 3,
-                                backgroundColor: Colors.grey.withOpacity(0.2),
-                                valueColor:
-                                    AlwaysStoppedAnimation<Color>(Colors.red),
-                              ),
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.green,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "230 Cal",
-                                    style: TextStyle(
-                                        fontSize: 10, color: Colors.blue),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),*/
-                        // _PotentialCoinsIndicator(),
-                        /*  CircularPercentIndicator(
-                          radius: 60.0,
-                          lineWidth: 5.0,
-                          percent: 0.5,
-                          center: new Text("100%"),
-                          progressColor: Colors.green,
-                        ),*/
 
                         LargeProfileAvatar(),
                         SizedBox(height: 40),
