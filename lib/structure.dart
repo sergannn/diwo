@@ -1,5 +1,25 @@
 import 'package:flutter/material.dart';
 
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'AppBar with hamburger button',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Color.fromARGB(255, 2, 14, 24),
+      ),
+      home: const Structura(),
+    );
+  }
+}
+
 class Structura extends StatefulWidget {
   const Structura({Key? key}) : super(key: key);
   @override
@@ -28,7 +48,8 @@ class MyStructure extends State<Structura> {
                 height: 30,
                 decoration: const BoxDecoration(
                   color: Colors.white,
-                  border: Border(bottom: BorderSide(color: Colors.black, width: 2)),
+                  border:
+                      Border(bottom: BorderSide(color: Colors.black, width: 2)),
                 ),
               ),
               Row(
@@ -38,7 +59,8 @@ class MyStructure extends State<Structura> {
                       height: 30,
                       decoration: const BoxDecoration(
                         color: Colors.white,
-                        border: Border(bottom: BorderSide(color: Colors.black, width: 2)),
+                        border: Border(
+                            bottom: BorderSide(color: Colors.black, width: 2)),
                       ),
                     ),
                   ),
@@ -47,7 +69,8 @@ class MyStructure extends State<Structura> {
                     height: 30,
                     decoration: const BoxDecoration(
                       color: Colors.blue,
-                      border: Border(bottom: BorderSide(color: Colors.black, width: 2)),
+                      border: Border(
+                          bottom: BorderSide(color: Colors.black, width: 2)),
                     ),
                   ),
                   Expanded(
@@ -55,7 +78,8 @@ class MyStructure extends State<Structura> {
                       height: 30,
                       decoration: const BoxDecoration(
                         color: Colors.white,
-                        border: Border(bottom: BorderSide(color: Colors.black, width: 2)),
+                        border: Border(
+                            bottom: BorderSide(color: Colors.black, width: 2)),
                       ),
                     ),
                   ),
@@ -68,7 +92,8 @@ class MyStructure extends State<Structura> {
                       height: 30,
                       decoration: const BoxDecoration(
                         color: Colors.white,
-                        border: Border(bottom: BorderSide(color: Colors.black, width: 2)),
+                        border: Border(
+                            bottom: BorderSide(color: Colors.black, width: 2)),
                       ),
                     ),
                   ),
@@ -81,7 +106,8 @@ class MyStructure extends State<Structura> {
                       height: 30,
                       decoration: const BoxDecoration(
                         color: Colors.white,
-                        border: Border(bottom: BorderSide(color: Colors.black, width: 2)),
+                        border: Border(
+                            bottom: BorderSide(color: Colors.black, width: 2)),
                       ),
                     ),
                   ),
@@ -90,7 +116,8 @@ class MyStructure extends State<Structura> {
                       height: 30,
                       decoration: const BoxDecoration(
                         color: Colors.white,
-                        border: Border(bottom: BorderSide(color: Colors.black, width: 2)),
+                        border: Border(
+                            bottom: BorderSide(color: Colors.black, width: 2)),
                       ),
                     ),
                   ),
@@ -130,7 +157,8 @@ class MyStructure extends State<Structura> {
                 height: 40,
                 decoration: const BoxDecoration(
                   color: Colors.red,
-                  border: Border(bottom: BorderSide(color: Colors.black, width: 2)),
+                  border:
+                      Border(bottom: BorderSide(color: Colors.black, width: 2)),
                 ),
               ),
               Container(
