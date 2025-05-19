@@ -19,6 +19,9 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+    Provider.of<CountdownTimer>(context, listen: false).loadTimerState();
+  });
 //    final timer = Provider.of<CountdownTimer>(context, listen: false);
 //    timer.loadTimerState();
   }
@@ -34,6 +37,7 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
     final timer = Provider.of<CountdownTimer>(context, listen: false);
     if (state == AppLifecycleState.paused) {
       timer.saveTimerState();
+       timer.stopTimer();
     } else if (state == AppLifecycleState.resumed) {
       // если свернул
       timer.loadTimerState();
@@ -66,9 +70,9 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
               ),
             ],
           ),
-        ),
+        ),/*
         SizedBox(height: 10),
-           Text(timer.getCoinProgress.toString()),
+           Text(timer.getCoinProgress.toString()),*/
         GestureDetector(
           onTap: () {
             final collected = timer.collectCoins();
@@ -92,13 +96,13 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
                   height: 220.3,
                 ),
              
-                 CircularPercentIndicator(
+               /*  CircularPercentIndicator(
                   radius: 60.0+10,
                   lineWidth: 2.0,
                   percent: timer.getCoinProgress*100/36/100,
                
                   progressColor: Colors.red,
-                ),
+                ),*/
                 CircularPercentIndicator(
                   radius: 60.0,
                   lineWidth: 5.0,

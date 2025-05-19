@@ -11,11 +11,9 @@ class CountdownTimer extends ChangeNotifier {
   double _earnedCoins = 0;
   final double _maxCoins = 600; // Максимум 600 монет за 6 часов
   int _balance = 0;
+  int _coinProgressSeconds = 0;
+  DateTime? _lastPausedTime; // Добавлено для отслеживания времени паузы
 
-  int _coinProgressSeconds =
-      0; // Новое поле для отслеживания прогресса до следующей монеты
-
-  // Новый геттер для получения прогресса
   int get secondsUntilNextCoin => 36 - _coinProgressSeconds;
 
   CountdownTimer() : _remainingSeconds = 21600 {
@@ -28,8 +26,7 @@ class CountdownTimer extends ChangeNotifier {
   bool get isRunning => _isRunning;
   double get earnedCoins => _earnedCoins;
   double get maxCoins => _maxCoins;
-
-  int get getCoinProgress  => _coinProgressSeconds; 
+  int get getCoinProgress => _coinProgressSeconds;
   
   Duration get duration => Duration(seconds: _remainingSeconds);
   double get progress => 1 - (_remainingSeconds / _initialSeconds);
@@ -42,22 +39,23 @@ class CountdownTimer extends ChangeNotifier {
     return '$hours:$minutes:$seconds';
   }
 
-  // Загрузка состояния таймера
+  // Загрузка состояния таймера (обновлено)
   Future<void> loadTimerState() async {
     final prefs = await SharedPreferences.getInstance();
     final savedTime = prefs.getInt('lastUpdateTime');
     final savedDuration = prefs.getInt('remainingDuration');
 
     if (savedTime != null && savedDuration != null) {
-      final now = DateTime.now().millisecondsSinceEpoch;
-      final elapsedSeconds = (now - savedTime) ~/ 1000;
+      final now = DateTime.now();
+      final lastUpdate = DateTime.fromMillisecondsSinceEpoch(savedTime);
+      final elapsedSeconds = now.difference(lastUpdate).inSeconds;
 
-      // Корректный расчет оставшегося времени
       _remainingSeconds = max(0, savedDuration - elapsedSeconds);
-
-      // Расчет заработанных монет пропорционально времени
       _earnedCoins = min(
           _maxCoins, _maxCoins * (1 - (_remainingSeconds / _initialSeconds)));
+      
+      // Обновляем прогресс монет
+      _coinProgressSeconds = (_earnedCoins % 1 * 36).toInt();
 
       if (_remainingSeconds > 0) {
         startTimer();
@@ -67,7 +65,7 @@ class CountdownTimer extends ChangeNotifier {
       }
       notifyListeners();
     } else {
-      // Первый запуск - начинаем отсчет
+      _remainingSeconds = _initialSeconds;
       startTimer();
     }
   }
@@ -84,26 +82,23 @@ class CountdownTimer extends ChangeNotifier {
     if (_isRunning || _remainingSeconds <= 0) return;
 
     _isRunning = true;
-    _timer?.cancel(); // Отменяем предыдущий таймер, если был
+    _timer?.cancel();
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingSeconds > 0) {
         _remainingSeconds--;
-
         _coinProgressSeconds++;
 
-        // Когда достигаем 36 секунд - начисляем монету и сбрасываем
         if (_coinProgressSeconds >= 36) {
           _earnedCoins = min(_earnedCoins + 1, _maxCoins);
-          _coinProgressSeconds = 0; // Сбрасываем счётчик
+          _coinProgressSeconds = 0;
         }
 
-        // Обновляем количество монет на основе прогресса
         if (_remainingSeconds % 36 == 0) {
           _earnedCoins += 1;
         }
         notifyListeners();
-        saveTimerState(); // Периодически сохраняем состояние
+        saveTimerState();
       } else {
         stopTimer();
         _earnedCoins = _maxCoins;
@@ -111,10 +106,6 @@ class CountdownTimer extends ChangeNotifier {
       }
     });
   }
-
-  // Новый метод для получения и сброса прогресса
-  
-
 
   // Остановка таймера
   void stopTimer() {
@@ -126,7 +117,7 @@ class CountdownTimer extends ChangeNotifier {
 
   // Сбор монет и перезапуск таймера
   int collectCoins() {
-    _coinProgressSeconds=0;
+    _coinProgressSeconds = 0;
     final coinsToAdd = min(_earnedCoins, _maxCoins).floor();
     _earnedCoins = 0;
     _remainingSeconds = _initialSeconds;
@@ -134,7 +125,6 @@ class CountdownTimer extends ChangeNotifier {
     if (!_isRunning) {
       startTimer();
     } else {
-      // Если таймер уже работает, просто сбрасываем время
       notifyListeners();
     }
 
