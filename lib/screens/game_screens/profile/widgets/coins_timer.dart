@@ -70,9 +70,9 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
               ),
             ],
           ),
-        ),/*
+        ),
         SizedBox(height: 10),
-           Text(timer.getCoinProgress.toString()),*/
+        //   Text(timer.getCoinProgress.toString()),
         GestureDetector(
           onTap: () {
             final collected = timer.collectCoins();
@@ -99,7 +99,7 @@ class LargeProfileAvatarState extends State<LargeProfileAvatar>
                /*  CircularPercentIndicator(
                   radius: 60.0+10,
                   lineWidth: 2.0,
-                  percent: timer.getCoinProgress*100/36/100,
+                  percent: timer.progressToNextCoin,
                
                   progressColor: Colors.red,
                 ),*/

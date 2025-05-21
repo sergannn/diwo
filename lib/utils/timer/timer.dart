@@ -4,23 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CountdownTimer extends ChangeNotifier {
+  // Таймер и состояние
   Timer? _timer;
-  int _remainingSeconds;
-  final int _initialSeconds = 21600; // 6 часов в секундах
   bool _isRunning = false;
+  
+  // Настройки времени (6 часов = 21600 секунд)
+  int _remainingSeconds;
+  static const int _initialSeconds = 21600;
+  
+  // Система монет (1 монета каждые 36 секунд, максимум 600 монет)
   double _earnedCoins = 0;
-  final double _maxCoins = 600; // Максимум 600 монет за 6 часов
+  static const double _maxCoins = 600;
   int _balance = 0;
-  int _coinProgressSeconds = 0;
-  DateTime? _lastPausedTime; // Добавлено для отслеживания времени паузы
+  int _coinProgressSeconds = 0; // Прогресс до следующей монеты (0-35)
 
-  int get secondsUntilNextCoin => 36 - _coinProgressSeconds;
-
-  CountdownTimer() : _remainingSeconds = 21600 {
-    loadTimerState();
-  }
-
-  // Геттеры для доступа к данным
+  // ========== ГЕТТЕРЫ ========== //
+  
   int get balance => _balance;
   int get remainingSeconds => _remainingSeconds;
   bool get isRunning => _isRunning;
@@ -28,36 +27,53 @@ class CountdownTimer extends ChangeNotifier {
   double get maxCoins => _maxCoins;
   int get getCoinProgress => _coinProgressSeconds;
   
-  Duration get duration => Duration(seconds: _remainingSeconds);
-  double get progress => 1 - (_remainingSeconds / _initialSeconds);
-
+  // Прогресс до следующей монеты (0.0 - 1.0)
+  double get progressToNextCoin => _coinProgressSeconds / 36;
+  
+  // Общий прогресс таймера (0.0 - 1.0)
+    double get progress {
+  return (_initialSeconds - _remainingSeconds) / _initialSeconds;
+    }
+  // Форматированное время (ЧЧ:ММ:СС)
   String get formattedDuration {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final hours = twoDigits(duration.inHours);
-    final minutes = twoDigits(duration.inMinutes.remainder(60));
-    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    final hours = twoDigits(_remainingSeconds ~/ 3600);
+    final minutes = twoDigits((_remainingSeconds % 3600) ~/ 60);
+    final seconds = twoDigits(_remainingSeconds % 60);
     return '$hours:$minutes:$seconds';
   }
 
-  // Загрузка состояния таймера (обновлено)
+  // ========== ОСНОВНЫЕ МЕТОДЫ ========== //
+
+  CountdownTimer() : _remainingSeconds = _initialSeconds {
+    loadTimerState();
+  }
+
+  // Загрузка сохраненного состояния
   Future<void> loadTimerState() async {
     final prefs = await SharedPreferences.getInstance();
+    
+    // Получаем сохраненные значения
     final savedTime = prefs.getInt('lastUpdateTime');
     final savedDuration = prefs.getInt('remainingDuration');
-
+    final savedCoins = prefs.getDouble('earnedCoins');
+    final savedBalance = prefs.getInt('balance');
+    final savedProgress = prefs.getInt('coinProgress');
+    
     if (savedTime != null && savedDuration != null) {
-      final now = DateTime.now();
-      final lastUpdate = DateTime.fromMillisecondsSinceEpoch(savedTime);
-      final elapsedSeconds = now.difference(lastUpdate).inSeconds;
-
-      _remainingSeconds = max(0, savedDuration - elapsedSeconds);
-      _earnedCoins = min(
-          _maxCoins, _maxCoins * (1 - (_remainingSeconds / _initialSeconds)));
+      // Рассчитываем сколько времени прошло с момента последнего сохранения
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final elapsedSeconds = (now - savedTime) ~/ 1000;
       
-      // Обновляем прогресс монет
-      _coinProgressSeconds = (_earnedCoins % 1 * 36).toInt();
-
+      // Обновляем состояние
+      _remainingSeconds = max(0, savedDuration - elapsedSeconds);
+      _earnedCoins = min(savedCoins ?? 0, _maxCoins);
+      _balance = savedBalance ?? 0;
+      _coinProgressSeconds = min(savedProgress ?? 0, 35);
+      
+      // Если время еще не вышло, запускаем таймер
       if (_remainingSeconds > 0) {
+        _calculateProgressWhileInactive(elapsedSeconds);
         startTimer();
       } else {
         _earnedCoins = _maxCoins;
@@ -65,16 +81,30 @@ class CountdownTimer extends ChangeNotifier {
       }
       notifyListeners();
     } else {
+      // Первый запуск - начинаем с начала
       _remainingSeconds = _initialSeconds;
       startTimer();
     }
   }
 
-  // Сохранение состояния таймера
+  // Расчет прогресса, пока приложение было неактивно
+  void _calculateProgressWhileInactive(int elapsedSeconds) {
+    // Сколько монет было заработано за время неактивности
+    final additionalCoins = elapsedSeconds ~/ 36;
+    _earnedCoins = min(_earnedCoins + additionalCoins, _maxCoins);
+    
+    // Остаток секунд для следующей монеты
+    _coinProgressSeconds = elapsedSeconds % 36;
+  }
+
+  // Сохранение текущего состояния
   Future<void> saveTimerState() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('lastUpdateTime', DateTime.now().millisecondsSinceEpoch);
     await prefs.setInt('remainingDuration', _remainingSeconds);
+    await prefs.setDouble('earnedCoins', _earnedCoins);
+    await prefs.setInt('balance', _balance);
+    await prefs.setInt('coinProgress', _coinProgressSeconds);
   }
 
   // Запуск таймера
@@ -82,24 +112,30 @@ class CountdownTimer extends ChangeNotifier {
     if (_isRunning || _remainingSeconds <= 0) return;
 
     _isRunning = true;
-    _timer?.cancel();
+    _timer?.cancel(); // Отменяем предыдущий таймер
 
+    // Обновляем состояние каждую секунду
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingSeconds > 0) {
         _remainingSeconds--;
         _coinProgressSeconds++;
-
+        
+        // Каждые 36 секунд добавляем монету
         if (_coinProgressSeconds >= 36) {
-          _earnedCoins = min(_earnedCoins + 1, _maxCoins);
-          _coinProgressSeconds = 0;
-        }
-
-        if (_remainingSeconds % 36 == 0) {
           _earnedCoins += 1;
+          _coinProgressSeconds = 0;
+          
+          // Проверяем, не достигли ли максимума
+          if (_earnedCoins >= _maxCoins) {
+            _earnedCoins = _maxCoins;
+            stopTimer();
+          }
         }
+        
         notifyListeners();
         saveTimerState();
       } else {
+        // Время вышло
         stopTimer();
         _earnedCoins = _maxCoins;
         notifyListeners();
@@ -115,20 +151,19 @@ class CountdownTimer extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Сбор монет и перезапуск таймера
+  // Сбор накопленных монет
   int collectCoins() {
-    _coinProgressSeconds = 0;
-    final coinsToAdd = min(_earnedCoins, _maxCoins).floor();
+    final coinsToAdd = _earnedCoins.floor();
+    
+    // Сбрасываем состояние
     _earnedCoins = 0;
+    _coinProgressSeconds = 0;
     _remainingSeconds = _initialSeconds;
-
-    if (!_isRunning) {
-      startTimer();
-    } else {
-      notifyListeners();
-    }
-
+    
+    // Перезапускаем таймер
+    startTimer();
     saveTimerState();
+    
     return coinsToAdd;
   }
 
@@ -136,6 +171,7 @@ class CountdownTimer extends ChangeNotifier {
   void addToBalance(int amount) {
     _balance += amount;
     notifyListeners();
+    saveTimerState();
   }
 
   // Очистка ресурсов
