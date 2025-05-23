@@ -133,6 +133,7 @@ class LocationExampleState extends State<MapBoxLocationExample> {
   }
 
   Future<void> _goToCurrentLocation() async {
+    print(1);
     try {
       final position = await gl.Geolocator.getCurrentPosition();
 
